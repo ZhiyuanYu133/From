@@ -1,5 +1,8 @@
+## 过往满分case展示
+https://www.youtube.com/watch?v=FEW22YsaHn4
 
-
+## 以下是要完成的user story 
+--表示已经完成，+表示待处理或正在处理中，“*”的数量代表重要程度
 As an author I want to make public posts. --
 # post manage
 ***** As an author I want to edit public posts. + 
@@ -55,3 +58,4 @@ As a server admin, I can disable the node to node interfaces for connections tha
 As an author, I want to be able to make posts that are unlisted, that are publicly shareable by URI alone (or for embedding images) +?
 
 v1:
+## 评分标准
