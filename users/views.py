@@ -4,7 +4,7 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from stream.models import Post 
 from django.shortcuts import render, get_object_or_404
-from .models import Profile
+from .models import AuthUser
 '''
 messages.debug
 messages.info
@@ -29,7 +29,7 @@ def register(request):
 
 @login_required
 def profile(request, id):
-    author = get_object_or_404(Profile, id=id)
+    author = get_object_or_404(AuthUser, id=id)
     return render(request, 'users/profile.html', {'author': author})
     
 
