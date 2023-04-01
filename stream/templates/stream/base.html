@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- favicon -->
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://bootswatch.com/5/zephyr/bootstrap.min.css">
+
+        <!-- Local CSS /stream/static/stream/main.css -->
+        <link rel="stylesheet" type="text/css" href="{% static "stream/main.css" %}">
+
+        {% if title %}
+            <title>SocialDistribution - {{ title }}</title>
+        {% else %}
+            <title>SocialDistribution</title>
+        {% endif %}
+        <script>
+          function load_team_2_authors(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://social-distribution-media.herokuapp.com/api/authors?page=1&size=50");
+            xhr.setRequestHeader("Authorization", "Basic R3JvdXA4VXNlcjpQYXNzd29yZDEyMyE=")
+            xhr.onreadystatechange = function(){
+              if (xhr.readyState === 4 && xhr.status == 200){
+                var data = JSON.parse(xhr.responseText)
+                var items = data.items
+                for (const author of items){
+                  var displayName = author.displayName
+                  var h1 = document.createElement("h1")
+                  var text = document.createTextNode(displayName)
+                  h1.appendChild(text)
+                  document.body.appendChild(h1)
+            
+                }
+              }
+            }
+            xhr.send()
+          }
+        </script>
+    </head>
+
+    <body >
+        <header class="site-header">
+          {% include 'stream/navbar.html' %}
+          </header>
+          <button onclick="load_team_2_authors()">Load Authors</button>
+          <main role="main" class="container">
+            <div class="row">
+              <div class="col-md-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <!-- Main Content -->
+                {% block content %}{% endblock %}
+              </div>
+              <div class="col-md-4">
+                <div class="content-section" style="position: fixed;">
+                  <h3>Friend List Placeholder</h3>
+                  <p class='text-muted'>List of Friends you have:
+                    <ul class="list-group">
+                      <li class="list-group-item list-group-item-light">Friend 1</li>
+                      <li class="list-group-item list-group-item-light">Friend 2</li>
+                      <li class="list-group-item list-group-item-light">Friend 3</li>
+                      <li class="list-group-item list-group-item-light">Friend 4</li>
+                    </ul>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </main>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    </body>
+</html>
