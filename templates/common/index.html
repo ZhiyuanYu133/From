@@ -66,15 +66,19 @@
                                             share
                                         </div>
                                         <div>
-                                            view_count:{{ datum.view_count }} &nbsp;&nbsp;&nbsp;
+                                            <i class="fa fa-eye" aria-hidden="true"></i>{{ datum.view_count }} &nbsp;&nbsp;&nbsp;
+                                            {#                                            <i class="fa fa-add" aria-hidden="true"></i>#}
                                             like_count:
                                             <span id="like_count">{{ datum.like_count }} </span>&nbsp;&nbsp;&nbsp;
                                             comment_count:{{ datum.comment_count }} &nbsp;&nbsp;&nbsp;
                                         </div>
                                     </div>
                                     <div>
-                                        <a href="/stream/get_post_detail/{{ datum.id }}">comment</a>
-                                        <a href="#" onclick="add_like({{ datum.id }})">like</a>
+                                        <a href="/stream/get_post_detail/{{ datum.id }}" class="btn-sm btn-primary">comment</a>
+                                        <a href="#" onclick="add_like({{ datum.id }})"
+                                           class="btn-sm btn-primary">like</a>
+                                        <a href="/stream/share/{{ datum.id }}" onclick="add_like({{ datum.id }})"
+                                           class="btn-sm btn-primary">share</a>
                                     </div>
                                     <div class="summary-footer">
                                         <a href="/stream/get_post_detail/{{ datum.id }}" class="text-primary">(view

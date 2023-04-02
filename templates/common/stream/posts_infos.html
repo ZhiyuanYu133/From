@@ -64,10 +64,6 @@
                                                 <input type="text" placeholder="title" class="form-control" name="title"
                                                        value="{{ title }}">
                                             </div>
-                                            {#                                            <div class="col-md-4 form-group">#}
-                                            {#                                                <input type="text" placeholder="title" class="form-control"#}
-                                            {#                                                       name="data_name" value="{{ data_name }}">#}
-                                            {#                                            </div>#}
                                             <div class="col-md-2 form-group">
                                                 <button type="submit" class="form-control btn-primary btn">search
                                                 </button>
@@ -91,6 +87,7 @@
                                 <th>image</th>
                                 <th>publish datetime</th>
                                 <th>is_public</th>
+                                <th>is_friends_public</th>
                                 {% if action %}
                                     <th>action</th>
                                 {% endif %}
@@ -117,13 +114,17 @@
                                         {{ data.unlisted }}
                                     </td>
                                     <td>
-                                        <img src="/media/{{ data.image }}" alt="{{ data.title }}" style="width: 50px;height: 50px" >
+                                        <img src="/media/{{ data.image }}" alt="{{ data.title }}"
+                                             style="width: 50px;height: 50px">
                                     </td>
                                     <td>
                                         {{ data.published }}
                                     </td>
                                     <td>
                                         {{ data.is_public }}
+                                    </td>
+                                    <td>
+                                        {{ data.is_friends_public }}
                                     </td>
                                     {% if action %}
                                         <td>

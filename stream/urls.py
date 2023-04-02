@@ -11,6 +11,7 @@ urlpatterns = [
     path('add_comment/', add_comment, name="add_comment"),
     path('add_like_history/', add_like_history, name="add_like_history"),
     path('get_post_detail/<int:pk>', get_post_detail, name="get_post_detail"),
+    path('share/<int:id>', share, name="share"),
 ]
 
 app_name = "stream"

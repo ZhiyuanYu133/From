@@ -1,170 +1,190 @@
 <!doctype html>
 {% load static %}
 <html class="fixed">
-	<head>
-		<!-- Basic -->
-		<meta charset="UTF-8">
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
 
-		<title>
-            {% block title %}
-             CMPUT404Project
-            {% endblock %}
-        </title>
-
-        {% block style %}
-
+    <title>
+        {% block title %}
+            CMPUT404Project
         {% endblock %}
+    </title>
 
-	</head>
-	<body>
-		<section class="body">
+    {% block style %}
 
-			<!-- start: header -->
-			<header class="header">
-				<div class="logo-container">
-					<a href=".." class="logo">
-						<h3 style="color: black">CMPUT404Project</h3>
-					</a>
-					<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
-						<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-					</div>
-				</div>
+    {% endblock %}
 
-				<!-- start: search & user box -->
-				<div class="header-right">
+</head>
+<body>
+<section class="body">
 
-					<form action="/doctors_messages" class="search nav-form" method="get">
-						<div class="input-group input-search">
-							<input type="text" class="form-control" name="desc" id="q" placeholder="searchpost...">
-							<span class="input-group-btn">
+    <!-- start: header -->
+    <header class="header">
+        <div class="logo-container">
+            <a href=".." class="logo">
+                <h3 style="color: black">CMPUT404Project</h3>
+            </a>
+            <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html"
+                 data-fire-event="sidebar-left-opened">
+                <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+            </div>
+        </div>
+
+        <!-- start: search & user box -->
+        <div class="header-right">
+
+            <form action="/get_all_users" class="search nav-form" method="get">
+                <div class="input-group input-search">
+                    <input type="text" class="form-control" name="username" id="q" placeholder="search user...">
+                    <span class="input-group-btn">
 								<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
 							</span>
-						</div>
-					</form>
+                </div>
+            </form>
 
-					<span class="separator"></span>
-					<span class="separator"></span>
+            <span class="separator"></span>
+            <span class="separator"></span>
 
-					<div id="userbox" class="userbox">
-						<a href="#" data-toggle="dropdown">
-							<figure class="profile-picture">
-								<img src="/media/{{ request.session.image }}" alt="{{ request.session.username }}" class="img-circle" />
-							</figure>
-							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-								<span class="name">{{ request.session.username }}</span>
-								<span class="role">administrator</span>
-							</div>
+            <div id="userbox" class="userbox">
+                <a href="#" data-toggle="dropdown">
+                    <figure class="profile-picture">
+                        <img src="{{ request.session.image }}" alt="{{ request.session.username }}" class="img-circle"/>
+                    </figure>
+                    <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
+                        <span class="name">{{ request.session.username }}</span>
+                        <span class="role">common user</span>
+                    </div>
 
-							<i class="fa custom-caret"></i>
-						</a>
-						<div class="dropdown-menu">
-							<ul class="list-unstyled">
-								<li class="divider"></li>
-								<li>
-									<a role="menuitem" tabindex="-1" href="/user_info"><i class="fa fa-user"></i>profile</a>
-								</li>
-								<li>
-									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
-								</li>
-								<li>
-									<a role="menuitem" tabindex="-1" href="/logout"><i class="fa fa-power-off"></i> logout </a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- end: search & user box -->
-			</header>
-			<!-- end: header -->
+                    <i class="fa custom-caret"></i>
+                </a>
+                <div class="dropdown-menu">
+                    <ul class="list-unstyled">
+                        <li class="divider"></li>
+                        <li>
+                            <a role="menuitem" tabindex="-1" href="/user_info"><i class="fa fa-user"></i>profile</a>
+                        </li>
+                        {#								<li>#}
+                        {#									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>#}
+                        {#								</li>#}
+                        <li>
+                            <a role="menuitem" tabindex="-1" href="/logout"><i class="fa fa-power-off"></i> logout </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- end: search & user box -->
+    </header>
+    <!-- end: header -->
 
-			<div class="inner-wrapper">
-				<!-- start: sidebar -->
-				<aside id="sidebar-left" class="sidebar-left">
+    <div class="inner-wrapper">
+        <!-- start: sidebar -->
+        <aside id="sidebar-left" class="sidebar-left">
 
-					<div class="sidebar-header">
-						<div class="sidebar-title" style="color: white">CMPUT404Project
-						</div>
-						<div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
-							<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-						</div>
-					</div>
+            <div class="sidebar-header">
+                <div class="sidebar-title" style="color: white">CMPUT404Project
+                </div>
+                <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html"
+                     data-fire-event="sidebar-left-toggle">
+                    <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                </div>
+            </div>
 
-					<div class="nano">
-						<div class="nano-content">
-							<nav id="menu" class="nav-main" role="navigation">
-								<ul class="nav nav-main">
-									<li class="nav-active">
-										<a href="/">
-											<i class="fa fa-home" aria-hidden="true"></i>
-											<span>index</span>
-										</a>
-									</li>
+            <div class="nano">
+                <div class="nano-content">
+                    <nav id="menu" class="nav-main" role="navigation">
+                        <ul class="nav nav-main">
+                            <li class="nav-active">
+                                <a href="/">
+                                    <i class="fa fa-home" aria-hidden="true"></i>
+                                    <span>index</span>
+                                </a>
+                            </li>
 
-                                    <li class="nav">
-										<a href="/user_follows">
-											<i class="fa fa-table" aria-hidden="true"></i>
-											<span>my follows info</span>
-										</a>
-									</li>
-                                    <li class="nav">
-										<a href="/stream/get_auth_posts">
-											<i class="fa fa-table" aria-hidden="true"></i>
-											<span>my posts</span>
-										</a>
-									</li>
+                            <li class="nav">
+                                <a href="/user_follows">
+                                    <i class="fa fa-table" aria-hidden="true"></i>
+                                    <span>my follows info</span>
+                                </a>
+                            </li>
+                            <li class="nav">
+                                <a href="/get_user_friends">
+                                    <i class="fa fa-table" aria-hidden="true"></i>
+                                    <span>my friends</span>
+                                </a>
+                            </li>
+                            <li class="nav">
+                                <a href="/get_all_users">
+                                    <i class="fa fa-table" aria-hidden="true"></i>
+                                    <span>all users</span>
+                                </a>
+                            </li>
+                            <li class="nav">
+                                <a href="/stream/get_auth_posts">
+                                    <i class="fa fa-table" aria-hidden="true"></i>
+                                    <span>my posts</span>
+                                </a>
+                            </li>
 
-									<li class="nav-parent">
-										<a>
-											<i class="fa fa-tasks" aria-hidden="true"></i>
-											<span>profile</span>
-										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/user_info">
-													 user info
-												</a>
-											</li>
-											<li>
-												<a href="/change_userinfo">
-													 change  info
-												</a>
-											</li>
-                                            <li>
-												<a href="/change_password">
-													 passwordchange
-												</a>
-											</li>
-											<li>
-												<a href="/logout">
-													 logout
-												</a>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</nav>
-							<hr class="separator" />
+                            <li class="nav">
+                                <a href="/get_user_inbox">
+                                    <i class="fa fa-table" aria-hidden="true"></i>
+                                    <span>total inbux</span>
+                                </a>
+                            </li>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-tasks" aria-hidden="true"></i>
+                                    <span>profile</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    <li>
+                                        <a href="/user_info">
+                                            user info
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/change_userinfo">
+                                            change info
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/change_password">
+                                            passwordchange
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/logout">
+                                            logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <hr class="separator"/>
 
-						</div>
+                </div>
 
-					</div>
+            </div>
 
-				</aside>
-				<!-- end: sidebar -->
+        </aside>
+        <!-- end: sidebar -->
 
-				<section role="main" class="content-body">
+        <section role="main" class="content-body">
 
-                    {% block content %}
-                    
-                    {% endblock %}
-                     更多 info请联系<a href="/" target="_blank" title="智推posts">admin.qq.com</a>
-				</section>
-			</div>
-		</section>
+            {% block content %}
+
+            {% endblock %}
+            more infomations please connect &nbsp;&nbsp;&nbsp;<a href="/" target="_blank">admin.qq.com</a>
+        </section>
+    </div>
+</section>
 
 
-        {% block script %}
+{% block script %}
 
-        {% endblock %}
-	</body>
+{% endblock %}
+</body>
 </html>

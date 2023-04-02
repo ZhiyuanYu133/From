@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label" for="inputHelpText">CommonMark or text：</label>
+                    <label class="col-md-3 control-label" for="inputHelpText">CommonMark or PlainText：</label>
                     <div class="col-md-6">
                         <div class="radio">
                             <label>
@@ -146,9 +146,29 @@
                             <label>
                                 <input type="radio" name="CommonMark" id="optionsRadios2" value="0"
                                         {% if post.CommonMark == 0 %} checked{% endif %}>
-                                text
+                                PlainText
                             </label>
                         </div>
+                    </div>
+                </div>
+            <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputHelpText">friends public or private：</label>
+                    <div class="col-md-6">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="is_friends_public" id="optionsRadios1" value="1"
+                                        {% if post.is_friends_public != 0 %} checked{% endif %}>
+                                public
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="is_friends_public" id="optionsRadios2" value="0"
+                                        {% if post.is_friends_public == 0 %} checked{% endif %}>
+                                private
+                            </label>
+                        </div>
+
                     </div>
                 </div>
                 <div class="form-group">
@@ -172,7 +192,7 @@
                     </div>
                 </div>
                 <input type="hidden" class="form-control" id="inputDefault" name="id"
-                       value="{{ post.id }}" >
+                       value="{{ post.id }}">
 
                 <div class="form-group">
                     <label class="col-md-3 control-label" for="inputFocus"></label>

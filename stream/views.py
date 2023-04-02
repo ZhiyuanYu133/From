@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render
 
+from home.models import *
 from social_distribution.common import loginValid, set_page
 from .models import *
 
@@ -63,6 +64,7 @@ def add_auth_posts(request):
         is_public = data.get("is_public", "")
         CommonMark = data.get("CommonMark", "")
         image = request.FILES.get("image", "")
+        is_friends_public = data.get("is_friends_public", "")
         if post:
             post.title = title
             post.source = source
@@ -75,6 +77,7 @@ def add_auth_posts(request):
             post.unlisted = unlisted
             post.is_public = is_public
             post.CommonMark = CommonMark
+            post.is_friends_public = is_friends_public
             if image:
                 post.image = image
         else:
@@ -91,6 +94,7 @@ def add_auth_posts(request):
                 unlisted=unlisted,
                 is_public=is_public,
                 CommonMark=CommonMark,
+                is_friends_public=is_friends_public,
                 image=image,
                 published=timezone.now()
             )
@@ -102,7 +106,7 @@ def add_auth_posts(request):
 
 @loginValid
 def get_post_detail(request, pk):
-    posts = Posts.objects.filter(id=pk, is_public=True)
+    posts = Posts.objects.filter(id=pk, is_public=1, is_friends_public=1)
     if not posts.exists():
         raise Http404
     post = posts[0]
@@ -159,3 +163,48 @@ def add_like_history(request):
             post.save()
         resp["data"]["count"] = post.like_count
     return JsonResponse(resp)
+
+
+@loginValid
+def share(request, id):
+    user_id = request.session["user_id"]
+    username = request.session["username"]
+    if request.method == "POST":
+        data = request.POST
+        friend_lst = data.getlist("friends")
+        post_id = data.get("post_id", "")
+        print("friend_lst:{},post_id:{}".format(friend_lst, post_id))
+
+        for friend_id in friend_lst:
+            u = User.objects.filter(id=friend_id)
+            print("u:{}".format(u))
+            if not u.exists():
+                continue
+            UserInbux.add_inbux(
+                user_id, username, friend_id, u[0].username,
+                "share post", "#", "{} share you one post".format(username), post_id, "POST"
+            )
+
+        return HttpResponseRedirect("/")
+    datas = UserFriends.objects.filter(
+        create_user=user_id,
+        is_agreed=1
+    )
+    friends = []
+    for data in datas:
+        if data.friend_to != user_id:
+            friends.append(
+                {
+                    "id": data.friend_to,
+                    "username": data.friend_to_username
+                }
+            )
+        elif data.create_user != user_id:
+            friends.append(
+                {
+                    "id": data.create_user,
+                    "username": data.create_user_name
+                }
+            )
+
+    return render(request, "common/stream/share.html", {"id": id, "friends": friends})

@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load box %}
 {% block title %}
-    CMPUT404Project | follows search
+    CMPUT404Project | inbux search
 {% endblock %}
 
 
@@ -50,7 +50,7 @@
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
-                    <h2 class="panel-title">my follows infos</h2>
+                    <h2 class="panel-title">my inbux infos</h2>
                 </header>
                 <div class="panel-body">
                     <div class="row">
@@ -60,13 +60,21 @@
                                     <div class="row">
                                         <form action="" method="get">
                                             <div class="col-md-4 form-group">
-                                                <input type="text" placeholder="title" class="form-control" name="title"
-                                                       value="{{ title }}">
+                                                <input type="text" class="form-control" name="action"
+                                                       value="{{ action }}">
                                             </div>
-                                            {#                                            <div class="col-md-4 form-group">#}
-                                            {#                                                <input type="text" placeholder="title" class="form-control"#}
-                                            {#                                                       name="data_name" value="{{ data_name }}">#}
-                                            {#                                            </div>#}
+                                            <div class="col-md-4 form-group">
+                                                <select name="is_read" id="" class="form-control">
+                                                    <option value="1" {% if is_read == 1 %}
+                                                            selected
+                                                    {% endif %} >read
+                                                    </option>
+                                                    <option value="0" {% if is_read == 0 %}
+                                                            selected
+                                                    {% endif %}>no read
+                                                    </option>
+                                                </select>
+                                            </div>
                                             <div class="col-md-2 form-group">
                                                 <button type="submit" class="form-control btn-primary btn">search
                                                 </button>
@@ -81,11 +89,11 @@
                         <table class="table table-hover mb-none table-bordered">
                             <thead>
                             <tr>
-                                <th>follow_to_username</th>
-                                <th>follow_time</th>
-                                <th>is_followed</th>
-                                <th>hosts</th>
-                                <th>follow_to_hosts</th>
+                                <th>create_username</th>
+                                <th>type</th>
+                                <th>detail</th>
+                                <th>add_time</th>
+                                <th>is_read</th>
                                 <th>action</th>
                             </tr>
                             </thead>
@@ -93,22 +101,32 @@
                             {% for data in datas %}
                                 <tr>
                                     <td>
-                                        <a href="/stream/get_auth_posts?user_id={{ data.follow_to }}">{{ data.follow_to_username }}</a>
+                                        {{ data.create_username }}
                                     </td>
                                     <td>
-                                        <div title="{{ data.follow_time }}"> {{ data.follow_time }}</div>
+                                        {{ data.action }}
                                     </td>
                                     <td>
-                                        {{ data.is_followed }}
+                                        {{ data.detail }}
                                     </td>
                                     <td>
-                                        {{ data.hosts }}
+                                        {{ data.add_time }}
                                     </td>
                                     <td>
-                                        {{ data.follow_to_hosts }}
+                                        {% if not data.is_read %}
+                                            <a href="/read/{{ data.id }}">read</a>
+                                        {% else %}
+                                            have read
+                                        {% endif %}
                                     </td>
                                     <td>
-                                        <a href="/add_follow/{{ data.follow_to }}?action=delete" class="btn-sm btn-primary">Cancel Follow</a>
+                                        {% if data.action_model == "UserFriends" %}
+                                            <a href="/update_inbux_state/{{ data.id }}" class="btn btn-primary btn-sm">agree</a>
+                                        {% elif data.action_model == "UserFollow" %}
+                                            <a href="/update_inbux_state/{{ data.id }}" class="btn btn-primary btn-sm">follow
+                                                with interest</a>
+
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -120,30 +138,30 @@
         </div>
         <ul class="list">
             {% if data.has_previous %}
-                <a href="?page={{ data.previous_page_number }}&data_name={{ data_name }}" class="btn-sm btn">&lt;</a>
+                <a href="?page={{ data.previous_page_number }}&action={{ action }}" class="btn-sm btn">&lt;</a>
             {% endif %}
             {% for page in page_list %}
                 {% if request.GET.page %}
                     {% if page == request.GET.page|add:0 %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}"
+                        <a href="?page={{ page }}&action={{ action }}"
                            class="btn-sm btn-success btn">{{ page }}</a>
                     {% elif  request.GET.page|add:0 > data.number and page == 1 %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}"
+                        <a href="?page={{ page }}&action={{ action }}"
                            class="btn-sm btn-success btn">{{ page }}</a>
                     {% else %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}" class="btn-sm btn">{{ page }}</a>
+                        <a href="?page={{ page }}&action={{ action }}" class="btn-sm btn">{{ page }}</a>
                     {% endif %}
                 {% else %}
                     {% if page == 1 %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}"
+                        <a href="?page={{ page }}&action={{ action }}"
                            class="btn-sm btn-success btn">{{ page }}</a>
                     {% else %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}" class="btn-sm btn">{{ page }}</a>
+                        <a href="?page={{ page }}&action={{ action }}" class="btn-sm btn">{{ page }}</a>
                     {% endif %}
                 {% endif %}
             {% endfor %}
             {% if data.has_next %}
-                <a href="?page={{ data.next_page_number }}&data_name={{ data_name }}" class="btn-sm btn">&gt;</a>
+                <a href="?page={{ data.next_page_number }}&action={{ action }}" class="btn-sm btn">&gt;</a>
             {% endif %}
         </ul>
     </div>

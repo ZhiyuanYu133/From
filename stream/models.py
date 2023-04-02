@@ -23,13 +23,14 @@ class Posts(models.Model):
     view_count = models.BigIntegerField(default=0, null=True)
     like_count = models.BigIntegerField(default=0, null=True)
     comment_count = models.BigIntegerField(default=0, null=True)
-    # comments = models.ManyToManyField(Comment, blank=True)
     published = models.DateTimeField(default=timezone.now, null=True)
     image = models.ImageField(upload_to="uploads/post_photo", blank=True, null=True)
     visibility = models.CharField(max_length=150, blank=True, null=True)
     unlisted = models.BooleanField(default=False, null=True)
     is_public = models.BooleanField(default=False)
     CommonMark = models.BooleanField(default=False)
+    is_friends_public = models.BooleanField(default=False)
+
 
     def __str__(self):
         return (
@@ -78,3 +79,5 @@ class LikeHistory(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     add_time = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+
+

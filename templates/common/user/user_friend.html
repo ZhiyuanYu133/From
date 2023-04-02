@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load box %}
 {% block title %}
-    CMPUT404Project | follows search
+    CMPUT404Project | friends search
 {% endblock %}
 
 
@@ -32,7 +32,7 @@
 
 {% block content %}
     <header class="page-header">
-        <h2>my follows</h2>
+        <h2>my friends</h2>
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
                 <li>
@@ -40,7 +40,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>my follows</span></li>
+                <li><span>my friends</span></li>
             </ol>
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
         </div>
@@ -50,7 +50,7 @@
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
-                    <h2 class="panel-title">my follows infos</h2>
+                    <h2 class="panel-title">my friends infos</h2>
                 </header>
                 <div class="panel-body">
                     <div class="row">
@@ -60,13 +60,9 @@
                                     <div class="row">
                                         <form action="" method="get">
                                             <div class="col-md-4 form-group">
-                                                <input type="text" placeholder="title" class="form-control" name="title"
+                                                <input type="text" class="form-control" name="title"
                                                        value="{{ title }}">
                                             </div>
-                                            {#                                            <div class="col-md-4 form-group">#}
-                                            {#                                                <input type="text" placeholder="title" class="form-control"#}
-                                            {#                                                       name="data_name" value="{{ data_name }}">#}
-                                            {#                                            </div>#}
                                             <div class="col-md-2 form-group">
                                                 <button type="submit" class="form-control btn-primary btn">search
                                                 </button>
@@ -81,11 +77,10 @@
                         <table class="table table-hover mb-none table-bordered">
                             <thead>
                             <tr>
-                                <th>follow_to_username</th>
-                                <th>follow_time</th>
-                                <th>is_followed</th>
+                                <th>friend_to_username</th>
+                                <th>friend_time</th>
                                 <th>hosts</th>
-                                <th>follow_to_hosts</th>
+                                <th>friend_to_hosts</th>
                                 <th>action</th>
                             </tr>
                             </thead>
@@ -93,22 +88,19 @@
                             {% for data in datas %}
                                 <tr>
                                     <td>
-                                        <a href="/stream/get_auth_posts?user_id={{ data.follow_to }}">{{ data.follow_to_username }}</a>
+                                        <a href="/stream/get_auth_posts?user_id={{ data.friend_to }}">{{ data.friend_to_username }}</a>
                                     </td>
                                     <td>
-                                        <div title="{{ data.follow_time }}"> {{ data.follow_time }}</div>
-                                    </td>
-                                    <td>
-                                        {{ data.is_followed }}
+                                        <div title="{{ data.friend_time }}"> {{ data.friend_time }}</div>
                                     </td>
                                     <td>
                                         {{ data.hosts }}
                                     </td>
                                     <td>
-                                        {{ data.follow_to_hosts }}
+                                        {{ data.friend_to_hosts }}
                                     </td>
                                     <td>
-                                        <a href="/add_follow/{{ data.follow_to }}?action=delete" class="btn-sm btn-primary">Cancel Follow</a>
+                                        <a href="/delete_friends/{{ data.id }}" class="btn-danger btn-sm">delete</a>
                                     </td>
                                 </tr>
                             {% endfor %}

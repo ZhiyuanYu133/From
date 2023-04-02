@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load box %}
 {% block title %}
-    CMPUT404Project | follows search
+    CMPUT404Project | users search
 {% endblock %}
 
 
@@ -32,7 +32,7 @@
 
 {% block content %}
     <header class="page-header">
-        <h2>my follows</h2>
+        <h2>all users</h2>
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
                 <li>
@@ -40,7 +40,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>my follows</span></li>
+                <li><span>all users</span></li>
             </ol>
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
         </div>
@@ -50,7 +50,7 @@
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
-                    <h2 class="panel-title">my follows infos</h2>
+                    <h2 class="panel-title">all users infos</h2>
                 </header>
                 <div class="panel-body">
                     <div class="row">
@@ -60,13 +60,10 @@
                                     <div class="row">
                                         <form action="" method="get">
                                             <div class="col-md-4 form-group">
-                                                <input type="text" placeholder="title" class="form-control" name="title"
-                                                       value="{{ title }}">
+                                                <input type="text" placeholder="username" class="form-control"
+                                                       name="username"
+                                                       value="{{ username }}">
                                             </div>
-                                            {#                                            <div class="col-md-4 form-group">#}
-                                            {#                                                <input type="text" placeholder="title" class="form-control"#}
-                                            {#                                                       name="data_name" value="{{ data_name }}">#}
-                                            {#                                            </div>#}
                                             <div class="col-md-2 form-group">
                                                 <button type="submit" class="form-control btn-primary btn">search
                                                 </button>
@@ -81,11 +78,12 @@
                         <table class="table table-hover mb-none table-bordered">
                             <thead>
                             <tr>
-                                <th>follow_to_username</th>
-                                <th>follow_time</th>
-                                <th>is_followed</th>
+                                <th>username</th>
+                                <th>displayName</th>
+                                <th>github</th>
                                 <th>hosts</th>
-                                <th>follow_to_hosts</th>
+                                <th>address</th>
+                                <th>create_time</th>
                                 <th>action</th>
                             </tr>
                             </thead>
@@ -93,22 +91,26 @@
                             {% for data in datas %}
                                 <tr>
                                     <td>
-                                        <a href="/stream/get_auth_posts?user_id={{ data.follow_to }}">{{ data.follow_to_username }}</a>
+                                        <a href="/stream/get_auth_posts?user_id={{ data.id }}">{{ data.username }}</a>
                                     </td>
                                     <td>
-                                        <div title="{{ data.follow_time }}"> {{ data.follow_time }}</div>
+                                        <div title="{{ data.displayName }}"> {{ data.follow_time }}</div>
                                     </td>
                                     <td>
-                                        {{ data.is_followed }}
+                                        {{ data.github }}
                                     </td>
                                     <td>
                                         {{ data.hosts }}
                                     </td>
                                     <td>
-                                        {{ data.follow_to_hosts }}
+                                        {{ data.address }}
                                     </td>
                                     <td>
-                                        <a href="/add_follow/{{ data.follow_to }}?action=delete" class="btn-sm btn-primary">Cancel Follow</a>
+                                        {{ data.create_time }}
+                                    </td>
+                                    <td>
+                                        <a href="/add_friends/{{ data.id }}" class="btn-sm btn-primary">add friend</a>
+                                        <a href="/add_follow/{{ data.id }}" class="btn-sm btn-success">add follow</a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -120,30 +122,30 @@
         </div>
         <ul class="list">
             {% if data.has_previous %}
-                <a href="?page={{ data.previous_page_number }}&data_name={{ data_name }}" class="btn-sm btn">&lt;</a>
+                <a href="?page={{ data.previous_page_number }}&username={{ username }}" class="btn-sm btn">&lt;</a>
             {% endif %}
             {% for page in page_list %}
                 {% if request.GET.page %}
                     {% if page == request.GET.page|add:0 %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}"
+                        <a href="?page={{ page }}&username={{ username }}"
                            class="btn-sm btn-success btn">{{ page }}</a>
                     {% elif  request.GET.page|add:0 > data.number and page == 1 %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}"
+                        <a href="?page={{ page }}&username={{ username }}"
                            class="btn-sm btn-success btn">{{ page }}</a>
                     {% else %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}" class="btn-sm btn">{{ page }}</a>
+                        <a href="?page={{ page }}&username={{ username }}" class="btn-sm btn">{{ page }}</a>
                     {% endif %}
                 {% else %}
                     {% if page == 1 %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}"
+                        <a href="?page={{ page }}&username={{ username }}"
                            class="btn-sm btn-success btn">{{ page }}</a>
                     {% else %}
-                        <a href="?page={{ page }}&data_name={{ data_name }}" class="btn-sm btn">{{ page }}</a>
+                        <a href="?page={{ page }}&username={{ username }}" class="btn-sm btn">{{ page }}</a>
                     {% endif %}
                 {% endif %}
             {% endfor %}
             {% if data.has_next %}
-                <a href="?page={{ data.next_page_number }}&data_name={{ data_name }}" class="btn-sm btn">&gt;</a>
+                <a href="?page={{ data.next_page_number }}&username={{ username }}" class="btn-sm btn">&gt;</a>
             {% endif %}
         </ul>
     </div>

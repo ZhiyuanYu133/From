@@ -2,12 +2,13 @@ import random
 from string import ascii_letters, digits
 
 from django.db.models import F
+from django.db.models import Q
 from django.http import JsonResponse, Http404
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from home.forms import UserForm
-from home.models import UserFollow, UserFriends
+from home.models import UserFollow, UserFriends, UserInbux
 from social_distribution.common import setPassword, loginValid, send_email, set_page
 from stream.models import *
 
@@ -17,7 +18,7 @@ from stream.models import *
 def index(request):
     # user_id = request.session.get("user_id")
     page = request.GET.get("page", 0)
-    datas = Posts.objects.filter(is_public=1)
+    datas = Posts.objects.filter(is_public=1, is_friends_public=1)
     page_list = []
     if datas:
         datas, page_list = set_page(datas, 40, page)
@@ -172,13 +173,13 @@ def forget_password(request):
         if email == alternative_email1 and code == alternative_code:
             User.objects.filter(email=email).update(password=setPassword(setPassword(password)))
             return redirect("home:login")
-        error = "email或验证码不正确，请确认！"
+        error = "email or codeerror，please sure！"
     return render(request, "common/user/forget_password.html", {"error": error})
 
 
 # ajax 发送验证码
 def send_code(request):
-    response = {"status": 0, "data": "email有误，请确认email"}
+    response = {"status": 0, "data": "email error，please user email"}
     email = request.GET.get("email")
     u = User.objects.filter(email=email)
     if u.exists():
@@ -190,7 +191,7 @@ def send_code(request):
         result = send_email(str1, email)
         if result:
             response["status"] = 1
-            response["data"] = "验证码已发送，请查收"
+            response["data"] = "code sened"
             request.session["code"] = str1
             request.session["email"] = email
     return JsonResponse(response)
@@ -200,22 +201,42 @@ def send_code(request):
 def add_follow(request, id):
     user_id = request.session.get("user_id")
     username = request.session.get("username")
+    action = request.GET.get("action", "")
+    print(action)
     user = User.objects.filter(id=id)
+    # find this user follow
+    userfollow = UserFollow.objects.filter(
+        create_user=user_id, follow_to=id,
+    )
     if not user:
         raise Http404
-    userfollow = UserFollow.objects.filter(create_user=id, follow_to=user_id)
-    user_follow = UserFollow(
-        create_user=user_id,
-        create_user_name=username,
-        follow_to=id,
-        follow_to_username=user[0].username,
-        is_followed=True if userfollow.exists() else False
-    )
-    user_follow.save()
-    return render(request, "common/stream/doctor_detail.html", {"user_follow": user_follow})
+    if action == "delete":
+        userfollow.delete()
+    else:
+        if not userfollow.exists():
+            other_follow = UserFollow.objects.filter(
+                create_user=id, follow_to=user_id,
+            )
+
+            user_follow = UserFollow(
+                create_user=user_id,
+                create_user_name=username,
+                follow_to=id,
+                follow_to_username=user[0].username,
+                is_followed=1 if other_follow.exists() else 0
+            )
+            user_follow.save()
+            other_follow.update(is_followed=1)
+            UserInbux.add_inbux(
+                user_id, username, id, user[0].username, "add follow", "", "{} follow you".format(username),
+                user_follow.id,
+                "UserFollow",
+            )
+    return HttpResponseRedirect("/user_follows/")
 
 
-def user_follows(request):
+@loginValid
+def get_user_follows(request):
     user_id = request.session.get("user_id")
     page = request.GET.get("page", 0)
     datas = UserFollow.objects.filter(
@@ -227,30 +248,111 @@ def user_follows(request):
     return render(request, "common/user/user_follows.html", {"datas": datas, "page_list": page_list})
 
 
+@loginValid
+def add_friends(request, id):
+    user_id = request.session.get("user_id")
+    username = request.session.get("username")
+    user = User.objects.filter(id=id)
+    if not user:
+        # TODO search other user
+        raise Http404
+    user_friend = UserFriends(
+        create_user=user_id,
+        create_user_name=username,
+        friend_to=id,
+        friend_to_username=user[0].username,
+    )
+    user_friend.save()
+    UserInbux.add_inbux(
+        user_id, username, id, user[0].username, "friend application", "url", "you hava a friend application",
+        user_friend.id
+    )
+    return HttpResponseRedirect("/get_user_friends/")
 
 
-# # my follows info
-# def type_messages(request):
-#     data = request.GET
-#     type_name = data.get("type_name", "")
-#     types = OfficeType.objects.all()
-#     print(type_name)
-#     if type_name:
-#         types = types.filter(type_name__icontains=type_name)
-#     return render(request, "common/stream/types_message.html", {"types": types, "type_name": type_name})
-#
-#
-# # post info
-# def doctors_messages(request):
-#     data = request.GET
-#     doctor_name = data.get("doctor_name", "")
-#     desc = data.get("desc", "")
-#     doctors = Doctors.objects.all()
-#     if doctor_name:
-#         doctors = doctors.filter(doctor_name__icontains=doctor_name)
-#     if desc:
-#         doctors = doctors.filter(
-#             Q(goods_at__icontains=desc) | Q(office_type__type_name__icontains=desc) | Q(desc__icontains=desc) | Q(
-#                 address__icontains=desc) | Q(rank_name__icontains=desc) | Q(office_type__desc__icontains=desc))
-#     return render(request, "common/stream/posts_infos.html",
-#                   {"doctors": doctors, "doctor_name": doctor_name, "desc": desc})
+@loginValid
+def get_user_friends(request):
+    user_id = request.session.get("user_id")
+    page = request.GET.get("page", 0)
+    datas = UserFriends.objects.filter(
+        create_user=user_id,
+        is_agreed=1
+    )
+    page_list = []
+    if datas:
+        datas, page_list = set_page(datas, 40, page)
+    return render(request, "common/user/user_friend.html", {"datas": datas, "page_list": page_list})
+
+
+@loginValid
+def get_user_inbox(request):
+    user_id = request.session.get("user_id")
+
+    page = request.GET.get("page", 0)
+    action = request.GET.get("action", "")
+    is_read = request.GET.get("is_read", 0)
+    datas = UserInbux.objects.filter(operator=user_id)
+    if action:
+        datas = datas.filter(action__icontains=action)
+    print(is_read)
+    if is_read:
+        datas = datas.filter(is_read=is_read)
+    page_list = []
+    if datas:
+        datas, page_list = set_page(datas, 40, page)
+    return render(request, "common/user/user_inbux.html", {"datas": datas, "page_list": page_list, "is_read": is_read})
+
+
+@loginValid
+def update_inbux_state(request, id):
+    user_id = request.session["user_id"]
+    UserInbux.update_state(user_id, id)
+    return redirect("/get_user_inbox")
+
+
+@loginValid
+def delete_friends(request, id):
+    user_id = request.session["user_id"]
+    print(user_id)
+    UserFriends.objects.filter(
+        Q(create_user=user_id) | Q(friend_to=user_id),
+        id=id).delete()
+    return HttpResponseRedirect("/get_user_friends")
+
+
+@loginValid
+def get_all_users(request):
+    user_id = request.session["user_id"]
+    page = request.GET.get("page", 0)
+    username = request.GET.get("username", "")
+    print(user_id)
+    datas = UserFriends.objects.filter(
+        Q(create_user=user_id) | Q(friend_to=user_id),
+        is_agreed=1
+    )
+    friends = []
+    for data in datas:
+        if data.friend_to != user_id:
+            friends.append(data.friend_to)
+        elif data.create_user != user_id:
+            friends.append(data.create_user)
+    datas = User.objects.filter(is_active=1, is_delete=0).exclude(
+        id=user_id
+    ).exclude(id__in=friends)
+    print(datas.count())
+    if username:
+        datas = datas.filter(username__icontains=username)
+    page_list = []
+    if datas:
+        datas, page_list = set_page(datas, 40, page)
+    ret = []
+    # TODO:search other user
+    return render(request, "common/user/user_list.html", {"datas": datas, "page_list": page_list, "username": username})
+
+
+@loginValid
+def read(request, id):
+    UserInbux.objects.filter(id=id).update(
+        is_read=1
+    )
+    return HttpResponseRedirect("/get_user_inbox")

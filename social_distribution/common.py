@@ -14,7 +14,7 @@ from home.models import User
 from django.http import HttpResponseRedirect
 
 
-# login校验器
+# loginvalid
 def loginValid(func):
     def inner(request, *args, **kwargs):
         username = request.COOKIES.get("username")
@@ -27,37 +27,29 @@ def loginValid(func):
     return inner
 
 
-# 发送邮件
+
 from django.core.mail import send_mail
 from social_distribution import settings
 
 
 def send_email(message, receiver, html_message=None):
     """
-    :param message: 要发送的 info
-    :param receiver: 接收人
-    :param html_message: html类型内容
-    :return:
     """
     try:
         if html_message:
-            result = send_mail("智推posts系统", message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message)
+            result = send_mail("", message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message)
         else:
-            result = send_mail("智推posts系统", message, settings.EMAIL_HOST_USER, [receiver])
+            result = send_mail("", message, settings.EMAIL_HOST_USER, [receiver])
     except:
         result = 0
     return result
 
 
-from django.core.paginator import Paginator  # 引入分页器
+from django.core.paginator import Paginator
 
 
 def set_page(data, num, page):
     """
-    :param data: 所有的数据
-    :param num:  每页的数据
-    :param page: 当前的页码
-    :return:
     """
     p = Paginator(data, num)
     number = p.num_pages
@@ -67,7 +59,7 @@ def set_page(data, num, page):
         data = p.page(page)
     except:
         data = p.page(1)
-    if page < 5:  # 一次只返回5个页码
+    if page < 5:
         page_list = page_range[:5]
     elif page + 4 > number:
         page_list = page_range[-5:]

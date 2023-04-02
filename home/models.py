@@ -65,3 +65,76 @@ class UserFriends(models.Model):
         if users.exists():
             return True
         return False
+
+    @staticmethod
+    def agree(id):
+        user_friends = UserFriends.objects.filter(id=id)
+        if not user_friends.exists():
+            return False
+
+        user_friends.update(
+            is_agreed=1
+        )
+        user_friend = user_friends[0]
+        userfriend = UserFriends(
+            create_user=user_friend.friend_to,
+            create_user_name=user_friend.friend_to_username,
+            friend_to=user_friend.create_user,
+            friend_to_username=user_friend.create_user_name,
+            is_agreed=1,
+        )
+        userfriend.save()
+        print("userfriend:{}".format(userfriend))
+
+
+class UserInbux(models.Model):
+    class Meta:
+        ordering = ["-add_time", "-is_read"]
+
+    create_user = models.CharField(max_length=256)
+    create_username = models.CharField(max_length=256)
+    operator = models.CharField(max_length=256)
+    operator_username = models.CharField(max_length=256)
+    action = models.CharField(max_length=256)
+    url = models.TextField()
+    detail = models.TextField()
+    add_time = models.DateTimeField(default=timezone.now)
+    is_read = models.BooleanField(default=0)
+    action_model = models.CharField(default="UserFriends", max_length=100)
+    source_id = models.CharField(default="", max_length=100)
+
+    @staticmethod
+    def add_inbux(
+            create_user,
+            create_username,
+            operator,
+            operator_username,
+            action,
+            url,
+            detail,
+            source_id,
+            action_model="UserFriends",
+    ):
+        inbux = UserInbux(
+            create_user=create_user,
+            create_username=create_username,
+            operator=operator,
+            operator_username=operator_username,
+            action=action,
+            url=url,
+            detail=detail,
+            action_model=action_model,
+            source_id=source_id,
+        )
+        inbux.save()
+
+    @staticmethod
+    def update_state(user_id, id):
+        inbuxs = UserInbux.objects.filter(operator=user_id, id=id)
+        print("inbuxs:{}".format(inbuxs))
+        if not inbuxs.exists():
+            return False
+        inbuxs.update(is_read=1)
+        inbux = inbuxs[0]
+        if inbux.action_model == "UserFriends":
+            UserFriends.agree(inbux.source_id)
