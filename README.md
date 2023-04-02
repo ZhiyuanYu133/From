@@ -1,10 +1,26 @@
-## 过往满分case展示
+## 目标
+- 达到14-17分的设计要求
+- 功能优先，美观其次，UI尽量简单即可（如果可以尽量按照之前页面的样子设计）
+- 尽量多的commit，我这边方便同步（少量多次）
+
+## 时间点
+- 尽量4月2日晚上之前完成基本功能的设计（用户注册登录；发帖；点赞评论转发；加好友等等）
+- 最迟4月3日早晨与第一个组对接
+- 4月4日之后可能有机会对细节进行修改，但总体功能应该保持不变了
+
+
+## 过往满分case参考
 https://www.youtube.com/watch?v=FEW22YsaHn4
 
-## 以下是要完成的user story 
+## 题目具体要求
+https://github.com/Wanrltw123/From/tree/main/Requirement
+
+## 以下所有内容都可在上面的题目具体要求链接中找到
+
+## 要完成的user story 
 --表示已经完成，+表示待处理或正在处理中，“*”的数量代表重要程度
 As an author I want to make public posts. --
-# post manage
+## 发帖 post manage
 - ***** As an author I want to edit public posts. + 
 - ***** As an author, posts I create can link to images. --
 -***** As an author, posts I create can be images. --
@@ -23,7 +39,7 @@ As an author I want to make public posts. --
 - ***** As an author, other authors cannot modify my public post +
 - ***** As an author, other authors cannot modify my shared to friends post. +
 
-# befriends manage
+## befriends manage
 - ***** As an author, I want to befriend local authors +?
 - ***** As an author, I want to befriend remote authors +?
 - ***** As an author, I want to feel safe about sharing images and posts with my friends – images shared to friends should only be visible to friends. [public images are public] +
@@ -34,14 +50,14 @@ As an author I want to make public posts. --
 - ***** As an author, I want to be able to use my web-browser to manage/author my posts +
 
 
-# server admin
+## 服务器管理员 server admin
 - ***** As a server admin, I want to be able add, modify, and remove authors. + 
 - ***** As a server admin, I want to OPTIONALLY be able allow users to sign up but require my OK to finally be on my server + 
 - ***** As a server admin, I don’t want to do heavy setup to get the posts of my author’s friends. +?
 - ***** As a server admin, I want a restful interface for most operations +
 As a server admin, I want to share public images with users on other servers. +?
 
-# post comment
+## 发评论 post comment
 - ***** As an author, I want to comment on posts that I can access +
 - ***** As an author, I want to like posts that I can access + 
 - ***** As an author, my server will know about my friends +?
@@ -49,7 +65,7 @@ As a server admin, I want to share public images with users on other servers. +?
 - ***** As an author, I want to know if I have friend requests. + 
 - ***** As an author I should be able to browse the public posts of everyone +
 
-# remote manage
+## 与其他组对接 remote manage
 - As a server admin, I want to be able to add nodes to share with +?
 - As a server admin, I want to be able to remove nodes and stop sharing with them. +?
 - As a server admin, I can limit nodes connecting to me via authentication. +?
@@ -104,3 +120,82 @@ v1:
      - A node to node connection. Requests from another node. HTTP Basic Auth authenticated.
    - Local
      - A local user accessing the REST API. Likely will use their cookie-auth, basic auth, or token auth. Local usually implies you check whether or not the user should have access. For instance local API access to the inbox should be limited to only that authenticated authors---don't snoop!
+
+## 评分细则
+*** Project Part 3
+    - 20 Marks
+    - Total Project
+      - Excellent 20: Excellent effort. Coordinates and connects fine. Good demo. Clear application of what was learned in class. 3 or more groups connected. Posts with embedded images are visible. Image posts are visible.
+      - Good 17: Some issues, not quite excellent but definitely operational and functional. 2 or more groups connected. Posts with embedded images are visible. Image posts are visible.
+      - Satisfactory 14: There are issues, it does run, it does coordinate. Meets satisfactory aspects of rubric. 2 or more group connected. Image posts are visible.
+      - Unsatisfactory 10: Well you tried, but it's hardly working. Meets unsatisfactory aspects of rubric. 1 or more group connected.
+      - Failure 0: Missing. No attempted. Not complete enough to evaluate. Often hits failure aspects of rubric.
+    - Note: these are ordered by importance, but you need to meet all these parts and we care about the final quality.
+   
+   - Code Base
+      - Excellent: Excellent effort. Relatively consistent. At least 90%
+        of requirements implemented. Clean code
+      - Good: Good quality. Some inconsistency. About 90% of
+        requirements implemented.
+      - Satisfactory: Codebase in places. Passes some tests. Some
+        parts run
+      - Unsatisfactory: Does not meet Satisfactory level
+    - UI 3
+      - Excellent: UI Exists and works well. Shows evidence of
+        planning. Looks great.
+      - Good: UI Exists.  Looks good
+      - Satisfactory: UI exists. Looks poor.
+      - Unsatisfactory: UI exists. Doesn't work well. Worse than poor.
+      - Failure: Missing or unusable.
+    - Web Service Coordination
+      - Excellent: Web service coordinates with 2+ other group
+        projects successfully. Most interoperation requirements met.
+      - Good: Web service coordinates with 2+ other group
+        projects successfully. Most interoperation requirements met.
+        Some snags.
+      - Satisfactory: The basics of coordination are covered.
+        Probably many snags.
+      - Unsatisfactory: Coordination doesn't work or barely works.
+    - Web Service API & Documentation
+      - Excellent: Documented, adheres to requirements to augments
+        them with compatibility.  Open API specification exists, has clear descriptions,
+        and has example requests and responses from your API. 
+      - Good: Documented, exists, tries to adhere to requirements.  Open API specification exists,
+        and has some descriptions and a few example requests and responses.
+      - Satisfactory: Some of the webservice exists. Open API specification exists,
+        and has a few example requests and responses.
+      - Unsatisfactory: Effort taken but incomplete. Open API specification exists, but no descriptions
+        or example requests and responses.
+      - Failure: API or Documentation Missing. Open API specification does not exist. 
+    - Tool Use
+      - Excellent: Use of at least Git is Evidence and Obvious
+      - Good: Frequent but inconsistent use of Git, etc.
+      - Satisfactory: Infrequent use of Git, etc.
+      - Unsatisfactory: Limited tool use
+      - Failure: lack of tool use
+    - Design
+      - Excellent: Adheres to standards, well designed
+      - Good: Adheres to standards somewhat, some awkward parts
+      - Satisfactory: Some good parts, some nasty parts
+      - Unsatisfactory: Little effort went into documenting and
+        designing the project
+      - Failure: clear lack of design
+    - Adhering to Standards
+      - Excellent: Excellent attempt at making a standards
+        compliant website. Most things are compliant.
+      - Good: An attempt at making a standards
+        compliant website. Some not compliant.
+      - Satisfactory: Inconsistent.
+      - Unsatisfactory: poor attempt to meet standards.
+      - Failure: failed to apply what was learned in class
+    - AJAX
+      - Excellent: Uses AJAX appropriately and well (documented)
+      - Good: Uses some AJAX (documented)
+      - Satisfactory: AJAX not really used
+      - Unsatisfactory: An attempt was made.
+      - Failure: No AJAX
+   - Test Cases （可4月5号之后添加）
+      - Excellent: System is well tested
+      - Good: System has some tests
+      - Unsatisfactory: test cases are inappropriate
+      - Failure: Missing test cases
