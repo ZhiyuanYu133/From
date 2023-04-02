@@ -20,9 +20,9 @@ urlpatterns = [
     path('send_code/', send_code, name="send_code"),
 
     # post info详情
-    path('doctors_detail/', doctors_detail, name="doctors_detail"),
-    path('type_messages/', type_messages, name="type_messages"),
-    path('doctors_messages/', doctors_messages, name="doctors_messages"),
+    # path('doctors_detail/', doctors_detail, name="doctors_detail"),
+    # path('type_messages/', type_messages, name="type_messages"),
+    # path('doctors_messages/', doctors_messages, name="doctors_messages"),
 ]
 
 app_name = "home"

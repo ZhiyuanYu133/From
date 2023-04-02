@@ -47,33 +47,38 @@
 
     <div class="row">
         <div class="row">
-            {% for datum in data %}
-                <div class="col-md-15 col-lg-3 col-xl-3">
+            {% for datum in datas %}
+                <div class="col-md-15">
                     <section class="panel panel-featured-left panel-featured-primary">
                         <div class="panel-body">
                             <div class="widget-summary">
                                 <div class="widget-summary-col">
                                     <div class="summary">
-                                        <h4 class="title" alt="{{ datum.doctor_name }}">{{ datum.doctor_name |set_name }}</h4>
-                                        <img src="/static/{{datum.doctor_pic }}" alt="{{ datum.doctor_name }}" style="width: 70px; height: 70px">
+                                        <h4 class="title" alt="{{ datum.title }}"><a
+                                                href="/stream/get_post_detail/{{ datum.id }}">{{ datum.title |set_name }}</a>
+                                        </h4>
+                                        <img src="/media/{{ datum.image }}" alt="{{ datum.title }}"
+                                             style="width: 70px; height: 70px">
                                         <div class="info">
-                                            职级：{{ datum.rank_name }}
+                                            <a href="{{ datum.source }}">{{ datum.source }}</a>-
+                                            <a href="/user_info?user_id={{ datum.author.id }}">{{ datum.author }}-</a>
+                                            {{ datum.published }}-
+                                            share
                                         </div>
-                                        <div class="info">
-                                            职级：{{ datum.rank_name }}
-                                        </div>
-                                        <div class="info">
-                                            my follows：{{ datum.office_type }}
-                                        </div>
-                                        <div class="info">
-                                            医院：{{ datum.hospital }}
-                                        </div>
-                                        <div class="info">
-                                            擅长：{{ datum.goods_at | set_name}}
+                                        <div>
+                                            view_count:{{ datum.view_count }} &nbsp;&nbsp;&nbsp;
+                                            like_count:
+                                            <span id="like_count">{{ datum.like_count }} </span>&nbsp;&nbsp;&nbsp;
+                                            comment_count:{{ datum.comment_count }} &nbsp;&nbsp;&nbsp;
                                         </div>
                                     </div>
+                                    <div>
+                                        <a href="/stream/get_post_detail/{{ datum.id }}">comment</a>
+                                        <a href="#" onclick="add_like({{ datum.id }})">like</a>
+                                    </div>
                                     <div class="summary-footer">
-                                        <a href="/doctors_detail?id={{ datum.id }}" class="text-primary">(查看详情)</a>
+                                        <a href="/stream/get_post_detail/{{ datum.id }}" class="text-primary">(view
+                                            detail)</a>
                                     </div>
                                 </div>
                             </div>
@@ -81,6 +86,21 @@
                     </section>
                 </div>
             {% endfor %}
+            <script>
+                function add_like(post_id) {
+                    console.log(post_id);
+                    $.ajax({
+                        url: "/stream/add_like_history",
+                        data: {post_id: post_id},
+                        type: "get",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data.data.count);
+                            $("#like_count").text(data.data.count);
+                        }
+                    })
+                }
+            </script>
         </div>
     </div>
 

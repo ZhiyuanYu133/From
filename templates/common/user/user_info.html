@@ -50,7 +50,12 @@ CMPUT404Project| profile
 
         </header>
         <div class="panel-body">
-            <a href="/change_userinfo" class="btn btn-success">完善 info</a>
+            {% if user.id == request.session.user_id %}
+                <a href="/change_userinfo" class="btn btn-success">change user info</a>
+                {% else %}
+                <a href="/add_friend" class="btn btn-success">add friend</a>
+            {% endif %}
+
             <div class="table-responsive">
                 <table class="table mb-none">
                     <tbody>
@@ -61,10 +66,13 @@ CMPUT404Project| profile
                             <td>password：{{ user.username | set_password}}</td>
                         </tr>
                         <tr>
-                            <td>昵称：{{ user.displayName }}</td>
+                            <td>displayName：{{ user.displayName }}</td>
                         </tr>
                         <tr>
-                            <td>phone：{% if user.gender == 0  %}女{% elif user.gender == 1  %}男{% else %}暂无{% endif %}</td>
+                            <td>github：{{ user.github }}</td>
+                        </tr>
+                        <tr>
+                            <td>phone：{% if user.gender == 0  %}woman{% elif user.gender == 1  %}man{% else %}暂无{% endif %}</td>
                         </tr><tr>
                             <td>phone：{{ user.phone }}</td>
                         </tr>
@@ -72,10 +80,10 @@ CMPUT404Project| profile
                             <td>email：{{ user.email }}</td>
                         </tr>
                         <tr>
-                            <td>地址：{{ user.address }}</td>
+                            <td>host：{{ user.host }}</td>
                         </tr>
                         <tr>
-                            <td>头像：<img src="/static/{{ user.image }}" alt="" width="32px" height="32px"></td>
+                            <td>profileImage：<img src="/media/{{ user.profileImage }}" alt="" width="32px" height="32px"></td>
                         </tr>
                     </tbody>
                 </table>

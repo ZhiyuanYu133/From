@@ -12,19 +12,15 @@ from stream.models import *
 
 
 # index
-# @loginValid
+@loginValid
 def index(request):
-    # last = Doctors.objects.count() - 1
     # user_id = request.session.get("user_id")
     page = request.GET.get("page", 0)
-    # type_name = request.GET.get("type_name", "")
-    data = Posts.objects.filter(is_public=1)
+    datas = Posts.objects.filter(is_public=1)
     page_list = []
-    # if type_name:
-    #     data = data.filter(office_type__type_name__icontains=type_name)
-    if data:
-        data, page_list = set_page(data, 40, page)
-    return render(request, "common/index.html", {"data": data, "page_list": page_list})
+    if datas:
+        datas, page_list = set_page(datas, 40, page)
+    return render(request, "common/index.html", {"datas": datas, "page_list": page_list})
 
 
 # register页面
@@ -55,10 +51,11 @@ def register(request):
 
 # login
 def login(request):
+    error = ""
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        u = User.objects.filter(username=username, password=setPassword(setPassword(password)))
+        u = User.objects.filter(username=username, password=setPassword(setPassword(password)),is_active=1, is_delete=0)
         if u.exists():
             response = HttpResponseRedirect("/")
             response.set_cookie("username", username)
@@ -67,10 +64,12 @@ def login(request):
             request.session["image"] = u[0].profileImage.url
             print(u[0].profileImage.url, u[0].profileImage)
             return response
-    return render(request, "common/user/login.html")
+        else:
+            error = "user not find"
+    return render(request, "common/user/login.html", {"error":error})
 
 
-# 退出
+# logout
 def logout(request):
     response = HttpResponseRedirect("/login/")
     try:
@@ -87,12 +86,16 @@ def logout(request):
 @loginValid
 def user_info(request):
     user_id = request.session.get("user_id")
-    user = User.objects.filter(id=user_id)
+    view_user_id = request.GET.get("user_id")
+    if view_user_id:
+        user = User.objects.filter(id=view_user_id)
+    else:
+        user = User.objects.filter(id=user_id)
     if user.exists():
         user = user[0]
         return render(request, "common/user/user_info.html", locals())
     else:
-        return render(request, "common/pages-404.html")
+        return render(request, "common/stream/pages-404.html")
 
 
 # change user info
@@ -102,7 +105,7 @@ def change_userinfo(request):
     user = User.objects.filter(id=user_id)
 
     if not user.exists():
-        return render(request, "common/pages-404.html")
+        return render(request, "common/stream/pages-404.html")
 
     if request.method == "POST":
         data = request.POST
@@ -112,7 +115,7 @@ def change_userinfo(request):
         email = data.get("email")
         address = data.get("address")
         image = request.FILES.get("image")
-        print(image)
+
         user.update(
             displayName=displayName if displayName else F("displayName"),
             gender=gender if gender else F("gender"),
@@ -148,7 +151,7 @@ def change_password(request):
     return render(request, "common/user/change_password.html", {"error": error})
 
 
-# 忘记password
+# forget password
 def forget_password(request):
     error = ""
     if request.method == "POST":
@@ -162,7 +165,7 @@ def forget_password(request):
             User.objects.filter(email=email).update(password=setPassword(setPassword(password)))
             return redirect("home:login")
         error = "email或验证码不正确，请确认！"
-    return render(request, "common/forget_password.html", {"error": error})
+    return render(request, "common/user/forget_password.html", {"error": error})
 
 
 # ajax 发送验证码
@@ -186,38 +189,38 @@ def send_code(request):
 
 
 # post详情
-def doctors_detail(request):
-    _id = request.GET.get("id")
-    user_id = request.session.get("user_id")
-    doctors = Doctors.objects.filter(id=_id)
-    if not doctors or not user_id:
-        raise Http404
-    doctor = doctors[0]
-    return render(request, "common/doctor_detail.html", {"doctor": doctor})
-
-
-# my follows info
-def type_messages(request):
-    data = request.GET
-    type_name = data.get("type_name", "")
-    types = OfficeType.objects.all()
-    print(type_name)
-    if type_name:
-        types = types.filter(type_name__icontains=type_name)
-    return render(request, "common/types_message.html", {"types": types, "type_name": type_name})
-
-
-# post info
-def doctors_messages(request):
-    data = request.GET
-    doctor_name = data.get("doctor_name", "")
-    desc = data.get("desc", "")
-    doctors = Doctors.objects.all()
-    if doctor_name:
-        doctors = doctors.filter(doctor_name__icontains=doctor_name)
-    if desc:
-        doctors = doctors.filter(
-            Q(goods_at__icontains=desc) | Q(office_type__type_name__icontains=desc) | Q(desc__icontains=desc) | Q(
-                address__icontains=desc) | Q(rank_name__icontains=desc) | Q(office_type__desc__icontains=desc))
-    return render(request, "common/doctors_message.html",
-                  {"doctors": doctors, "doctor_name": doctor_name, "desc": desc})
+# def doctors_detail(request):
+#     _id = request.GET.get("id")
+#     user_id = request.session.get("user_id")
+#     doctors = Doctors.objects.filter(id=_id)
+#     if not doctors or not user_id:
+#         raise Http404
+#     doctor = doctors[0]
+#     return render(request, "common/stream/doctor_detail.html", {"doctor": doctor})
+#
+#
+# # my follows info
+# def type_messages(request):
+#     data = request.GET
+#     type_name = data.get("type_name", "")
+#     types = OfficeType.objects.all()
+#     print(type_name)
+#     if type_name:
+#         types = types.filter(type_name__icontains=type_name)
+#     return render(request, "common/stream/types_message.html", {"types": types, "type_name": type_name})
+#
+#
+# # post info
+# def doctors_messages(request):
+#     data = request.GET
+#     doctor_name = data.get("doctor_name", "")
+#     desc = data.get("desc", "")
+#     doctors = Doctors.objects.all()
+#     if doctor_name:
+#         doctors = doctors.filter(doctor_name__icontains=doctor_name)
+#     if desc:
+#         doctors = doctors.filter(
+#             Q(goods_at__icontains=desc) | Q(office_type__type_name__icontains=desc) | Q(desc__icontains=desc) | Q(
+#                 address__icontains=desc) | Q(rank_name__icontains=desc) | Q(office_type__desc__icontains=desc))
+#     return render(request, "common/stream/posts_infos.html",
+#                   {"doctors": doctors, "doctor_name": doctor_name, "desc": desc})

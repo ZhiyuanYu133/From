@@ -56,9 +56,15 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-3 control-label" for="inputDefault">昵称：</label>
+            <label class="col-md-3 control-label" for="inputDefault">displayName：</label>
             <div class="col-md-6">
                 <input type="text" class="form-control" id="inputDefault" name="displayName" value="{{ user.displayName }}">
+            </div>
+        </div>
+    <div class="form-group">
+            <label class="col-md-3 control-label" for="inputDefault">github：</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="inputDefault" name="github" value="{{ user.github }}">
             </div>
         </div>
 
@@ -68,13 +74,13 @@
             <div class="radio">
                 <label>
                     <input type="radio" name="gender" id="optionsRadios1" value="1" {% if user.gender != 0 %} checked{% endif %}>
-                    男
+                    man
                 </label>
             </div>
             <div class="radio">
                 <label>
                     <input type="radio" name="gender" id="optionsRadios2" value="0" {% if user.gender == 0 %} checked{% endif %}>
-                    女
+                    woman
                 </label>
             </div>
             </div>
@@ -109,7 +115,7 @@
         <div class="form-group">
             <label class="col-md-3 control-label" for="inputFocus"></label>
             <div class="col-md-6">
-               <button type="submit" class="btn btn-primary">提交</button>
+               <button type="submit" class="btn btn-primary">submit</button>
             </div>
         </div>
     </form>

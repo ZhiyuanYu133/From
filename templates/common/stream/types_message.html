@@ -62,7 +62,7 @@
                                     <input type="text" placeholder="my follows名称" class="form-control" name="type_name" value="{{ type_name }}">
                                 </div>
                                 <div class="col-md-2 form-group">
-                                    <button type="submit" class="form-control btn-primary btn">搜索</button>
+                                    <button type="submit" class="form-control btn-primary btn">search</button>
                                 </div>
                             </form>
                         </div>
@@ -87,7 +87,7 @@
                             {{ type.add_time }}
                         </td>
                         <td>
-                            <a href="/index?type_name={{type.type_name}}">查看详情</a>
+                            <a href="/index?type_name={{type.type_name}}">view detail</a>
                         </td>
                     </tr>
                 {% endfor %}

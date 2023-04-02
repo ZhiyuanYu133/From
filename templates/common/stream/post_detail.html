@@ -1,0 +1,169 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+    CMPUT404Project | post detail
+{% endblock %}
+
+
+{% block style %}
+    <meta charset="UTF-8">
+    <meta name="keywords" content="HTML5 Admin Template"/>
+    <meta name="description" content="Porto Admin - Responsive HTML5 Template">
+    <meta name="author" content="okler.net">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, post-scalable=no"/>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+          rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/magnific-popup/magnific-popup.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap-datepicker/css/datepicker3.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/theme.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/skins/default.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/theme-custom.css">
+    <script src="/static/assets/vendor/modernizr/modernizr.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    <header class="page-header">
+        <h2>post detail</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>profile</span></li>
+                <li><span>change info</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">post detail</h2>
+        </header>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">title：</label>
+            <div class="col-md-6">
+                {{ post.title }}
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">author：</label>
+            <div class="col-md-6">
+                {{ post.author }}
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">view_count：</label>
+            <div class="col-md-6">
+                {{ post.view_count }}
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">comment_count：</label>
+            <div class="col-md-6">
+                {{ post.comment_count }}
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">image：</label>
+            <div class="col-md-6">
+                <img src="/media/{{ post.image }}" alt="{{ post.title }}">
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">source：</label>
+            <div class="col-md-6">
+                <a href="{{ post.source }}">{{ post.source }}</a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">origin：</label>
+            <div class="col-md-6">
+                {{ post.origin }}
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">description：</label>
+            <div class="col-md-6">
+                {{ post.description }}
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">contentType：</label>
+            <div class="col-md-6">
+                {{ post.contentType }}
+            </div>
+        </div>
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">content：</label>
+            <div class="col-md-6">
+                {{ post.content }}
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <label class="col-md-3 control-label" for="inputReadOnly">likes auth：</label>
+            {% for like in post.likehistory_set.all %}
+                {{ like.author }};
+            {% endfor %}
+        </div>
+    </section>
+    <section class="panel">
+        <form action="/stream/add_comment/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="inputDefault" name="comment" required>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-sm">submit</button>
+                </div>
+                <input type="hidden" value="{{ post.id }}" name="id">
+            </div>
+        </form>
+    </section>
+
+    <section class="panel">
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <div style="float: left">{{ comment.comment }}</div>
+                    <div style="float: right">{{ comment.author }}--{{ comment.published }}</div>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+{% endblock %}
+
+
+{% block script %}
+    <script src="/static/assets/vendor/jquery/jquery.js"></script>
+    <script src="/static/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="/static/assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="/static/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/static/assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="/static/assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+    <!-- Specific Page Vendor -->
+    <script src="/static/assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+    <script src="/static/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="/static/assets/javascripts/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="/static/assets/javascripts/theme.custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="/static/assets/javascripts/theme.init.js"></script>
+
+{% endblock %}

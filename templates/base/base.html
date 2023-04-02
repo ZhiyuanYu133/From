@@ -35,7 +35,7 @@
 
 					<form action="/doctors_messages" class="search nav-form" method="get">
 						<div class="input-group input-search">
-							<input type="text" class="form-control" name="desc" id="q" placeholder="搜索post...">
+							<input type="text" class="form-control" name="desc" id="q" placeholder="searchpost...">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
 							</span>
@@ -48,7 +48,7 @@
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
-								<img src="/static/{{ request.session.image }}" alt="{{ request.session.username }}" class="img-circle" />
+								<img src="/media/{{ request.session.image }}" alt="{{ request.session.username }}" class="img-circle" />
 							</figure>
 							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
 								<span class="name">{{ request.session.username }}</span>
@@ -67,7 +67,7 @@
 									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
 								</li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="/logout"><i class="fa fa-power-off"></i> 退出</a>
+									<a role="menuitem" tabindex="-1" href="/logout"><i class="fa fa-power-off"></i> logout </a>
 								</li>
 							</ul>
 						</div>
@@ -107,9 +107,9 @@
 										</a>
 									</li>
                                     <li class="nav">
-										<a href="/doctors_messages">
+										<a href="/stream/get_auth_posts">
 											<i class="fa fa-table" aria-hidden="true"></i>
-											<span>posts info</span>
+											<span>my posts</span>
 										</a>
 									</li>
 
@@ -126,7 +126,7 @@
 											</li>
 											<li>
 												<a href="/change_userinfo">
-													 完善 info
+													 change  info
 												</a>
 											</li>
                                             <li>
@@ -136,7 +136,7 @@
 											</li>
 											<li>
 												<a href="/logout">
-													 退出
+													 logout
 												</a>
 											</li>
 										</ul>

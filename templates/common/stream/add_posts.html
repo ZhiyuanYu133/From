@@ -1,0 +1,211 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+    CMPUT404Project | manage post
+{% endblock %}
+
+
+{% block style %}
+    <meta charset="UTF-8">
+    <meta name="keywords" content="HTML5 Admin Template"/>
+    <meta name="description" content="Porto Admin - Responsive HTML5 Template">
+    <meta name="author" content="okler.net">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, post-scalable=no"/>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+          rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/magnific-popup/magnific-popup.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap-datepicker/css/datepicker3.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/theme.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/skins/default.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/theme-custom.css">
+    <script src="/static/assets/vendor/modernizr/modernizr.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    <header class="page-header">
+        <h2>manage post</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>profile</span></li>
+                <li><span>change  info</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">manage post</h2>
+        </header>
+        <div class="panel-body">
+            <form class="form-horizontal form-bordered" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputReadOnly">title：</label>
+                    <div class="col-md-6">
+                        <input type="text" value="{{ post.title }}" class="form-control" name="title" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputDefault">source：</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="inputDefault" name="source"
+                               value="{{ post.source }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputDefault">origin：</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="inputDefault" name="origin"
+                               value="{{ post.origin }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputDefault">description：</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="inputDefault" name="description"
+                               value="{{ post.description }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputDefault">contentType：</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="inputDefault" name="contentType"
+                               value="{{ post.contentType }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputDefault">content：</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="inputDefault" name="content"
+                               value="{{ post.content }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputDefault">categories：</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="inputDefault" name="categories"
+                               value="{{ post.categories }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputFocus">image：</label>
+                    <div class="col-md-6">
+                        <input class="form-control" type="file" name="image">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputDefault">visibility：</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="inputDefault" name="visibility"
+                               value="{{ post.categories }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputHelpText">unlisted：</label>
+                    <div class="col-md-6">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="unlisted" id="optionsRadios1" value="1"
+                                        {% if post.unlisted != 0 %} checked{% endif %}>
+                                YES
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="unlisted" id="optionsRadios2" value="0"
+                                        {% if post.unlisted == 0 %} checked{% endif %}>
+                                NO
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputHelpText">CommonMark or text：</label>
+                    <div class="col-md-6">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="CommonMark" id="optionsRadios1" value="1"
+                                        {% if post.CommonMark != 0 %} checked{% endif %}>
+                                CommonMark
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="CommonMark" id="optionsRadios2" value="0"
+                                        {% if post.CommonMark == 0 %} checked{% endif %}>
+                                text
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputHelpText">public or private：</label>
+                    <div class="col-md-6">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="is_public" id="optionsRadios1" value="1"
+                                        {% if post.is_public != 0 %} checked{% endif %}>
+                                public
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="is_public" id="optionsRadios2" value="0"
+                                        {% if post.is_public == 0 %} checked{% endif %}>
+                                private
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <input type="hidden" class="form-control" id="inputDefault" name="id"
+                       value="{{ post.id }}" >
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputFocus"></label>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary">submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block script %}
+    <script src="/static/assets/vendor/jquery/jquery.js"></script>
+    <script src="/static/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="/static/assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="/static/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/static/assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="/static/assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+    <!-- Specific Page Vendor -->
+    <script src="/static/assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+    <script src="/static/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="/static/assets/javascripts/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="/static/assets/javascripts/theme.custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="/static/assets/javascripts/theme.init.js"></script>
+
+{% endblock %}
