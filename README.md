@@ -17,6 +17,24 @@ https://github.com/Wanrltw123/From/tree/main/Requirement
 
 ## 以下所有内容都可在上面的题目具体要求链接中找到
 
+## 运行方法
+- 安装虚拟环境
+ - virtualenv venv --python=python3
+ - .\venv\Scripts\Activate.ps1
+
+- 安装必要库
+ - pip install -r requirements.txt 
+
+- 运行
+   - python manage.py runserver 
+
+
+
+- 普通用户
+ - 账户名：ybkb
+ - 密码：ybkb123
+
+
 ## 要完成的user story 
 --表示已经完成，+表示待处理或正在处理中，“*”的数量代表重要程度
 As an author I want to make public posts. --
