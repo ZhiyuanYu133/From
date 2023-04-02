@@ -2,24 +2,27 @@
 {% load box %}
 
 {% block title %}
-CMPUT404Project| profile
+    CMPUT404Project| profile
 {% endblock %}
 
 
 
 {% block style %}
 
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="/static/assets/vendor/bootstrap/css/bootstrap.css" />
-		<link rel="stylesheet" href="/static/assets/vendor/font-awesome/css/font-awesome.css" />
-		<link rel="stylesheet" href="/static/assets/vendor/magnific-popup/magnific-popup.css" />
-		<link rel="stylesheet" href="/static/assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-		<link rel="stylesheet" href="/static/assets/stylesheets/theme.css" />
-		<link rel="stylesheet" href="/static/assets/stylesheets/skins/default.css" />
-		<link rel="stylesheet" href="/static/assets/stylesheets/theme-custom.css">
-		<script src="/static/assets/vendor/modernizr/modernizr.js"></script>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+          rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/magnific-popup/magnific-popup.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap-datepicker/css/datepicker3.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/theme.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/skins/default.css"/>
+    <link rel="stylesheet" href="/static/assets/stylesheets/theme-custom.css">
+    <script src="/static/assets/vendor/modernizr/modernizr.js"></script>
     <style>
-        td{color: black;}
+        td {
+            color: black;
+        }
     </style>
 {% endblock %}
 
@@ -43,54 +46,63 @@ CMPUT404Project| profile
         </div>
     </header>
     <div class="row">
-    <div class="col-md-12">
-    <section class="panel">
-        <header class="panel-heading">
-            <h2 class="panel-title">profile</h2>
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">profile</h2>
 
-        </header>
-        <div class="panel-body">
-            {% if user.id == request.session.user_id %}
-                <a href="/change_userinfo" class="btn btn-success">change user info</a>
-                {% else %}
-                <a href="/add_friend" class="btn btn-success">add friend</a>
-            {% endif %}
+                </header>
+                <div class="panel-body">
+                    {% if user.id == request.session.user_id %}
+                        <a href="/change_userinfo" class="btn btn-success">change user info</a>
+                    {% else %}
+                        {% if add_friend %}
+                            <a href="/add_friend/{{ user.id }}" class="btn btn-success">add friend</a>
+                        {% endif %}
 
-            <div class="table-responsive">
-                <table class="table mb-none">
-                    <tbody>
-                        <tr>
-                            <td>username：{{ user.username }}</td>
-                        </tr>
-                        <tr>
-                            <td>password：{{ user.username | set_password}}</td>
-                        </tr>
-                        <tr>
-                            <td>displayName：{{ user.displayName }}</td>
-                        </tr>
-                        <tr>
-                            <td>github：{{ user.github }}</td>
-                        </tr>
-                        <tr>
-                            <td>phone：{% if user.gender == 0  %}woman{% elif user.gender == 1  %}man{% else %}暂无{% endif %}</td>
-                        </tr><tr>
-                            <td>phone：{{ user.phone }}</td>
-                        </tr>
-                        <tr>
-                            <td>email：{{ user.email }}</td>
-                        </tr>
-                        <tr>
-                            <td>host：{{ user.host }}</td>
-                        </tr>
-                        <tr>
-                            <td>profileImage：<img src="/media/{{ user.profileImage }}" alt="" width="32px" height="32px"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                        {% if add_follow %}
+                            <a href="/add_follow/{{ user.id }}" class="btn btn-primary">add follow</a>
+                        {% endif %}
+                    {% endif %}
+
+                    <div class="table-responsive">
+                        <table class="table mb-none">
+                            <tbody>
+                            <tr>
+                                <td>username：{{ user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td>password：{{ user.username | set_password }}</td>
+                            </tr>
+                            <tr>
+                                <td>displayName：{{ user.displayName }}</td>
+                            </tr>
+                            <tr>
+                                <td>github：{{ user.github }}</td>
+                            </tr>
+                            <tr>
+                                <td>phone：{% if user.gender == 0 %}woman{% elif user.gender == 1 %}man{% else %}
+                                    暂无{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <td>phone：{{ user.phone }}</td>
+                            </tr>
+                            <tr>
+                                <td>email：{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td>host：{{ user.host }}</td>
+                            </tr>
+                            <tr>
+                                <td>profileImage：<img src="/media/{{ user.profileImage }}" alt="" width="32px"
+                                                      height="32px"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
-    </div>
 
     </div>
 

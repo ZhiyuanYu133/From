@@ -9,14 +9,21 @@ from .models import *
 def get_auth_posts(request):
     user_id = request.session["user_id"]
     title = request.GET.get("title", "")
-    datas = Posts.objects.filter(author=user_id)
+    other_user_id = request.GET.get("user_id", "")
+    action = True
+    if other_user_id:
+        datas = Posts.objects.filter(author=other_user_id, is_public=1)
+        action = False
+    else:
+        datas = Posts.objects.filter(author=user_id)
     if title:
         datas = datas.filter(title__icontains=title)
     page = request.GET.get("page", 0)
     page_list = []
     if datas:
         data, page_list = set_page(datas, 40, page)
-    return render(request, "common/stream/posts_infos.html", {"datas": datas, "page_list": page_list, "title": title})
+    return render(request, "common/stream/posts_infos.html",
+                  {"datas": datas, "page_list": page_list, "title": title, "action": action})
 
 
 @loginValid
@@ -148,7 +155,7 @@ def add_like_history(request):
                 post=post,
             )
             like_historys.save()
-            post.like_count+=1
+            post.like_count += 1
             post.save()
         resp["data"]["count"] = post.like_count
     return JsonResponse(resp)

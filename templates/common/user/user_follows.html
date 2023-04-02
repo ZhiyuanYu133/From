@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load box %}
 {% block title %}
-    CMPUT404Project | posts search
+    CMPUT404Project | follows search
 {% endblock %}
 
 
@@ -32,7 +32,7 @@
 
 {% block content %}
     <header class="page-header">
-        <h2>my posts</h2>
+        <h2>my follows</h2>
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
                 <li>
@@ -40,7 +40,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>my posts</span></li>
+                <li><span>my follows</span></li>
             </ol>
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
         </div>
@@ -50,8 +50,7 @@
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
-                    <h2 class="panel-title">my posts infos</h2>
-                    <a href="/stream/add_auth_posts" class="btn btn-success">add post</a>
+                    <h2 class="panel-title">my follows infos</h2>
                 </header>
                 <div class="panel-body">
                     <div class="row">
@@ -64,13 +63,12 @@
                                                 <input type="text" placeholder="title" class="form-control" name="title"
                                                        value="{{ title }}">
                                             </div>
-                                            {#                                            <div class="col-md-4 form-group">#}
-                                            {#                                                <input type="text" placeholder="title" class="form-control"#}
-                                            {#                                                       name="data_name" value="{{ data_name }}">#}
-                                            {#                                            </div>#}
+{#                                            <div class="col-md-4 form-group">#}
+{#                                                <input type="text" placeholder="title" class="form-control"#}
+{#                                                       name="data_name" value="{{ data_name }}">#}
+{#                                            </div>#}
                                             <div class="col-md-2 form-group">
-                                                <button type="submit" class="form-control btn-primary btn">search
-                                                </button>
+                                                <button type="submit" class="form-control btn-primary btn">search</button>
                                             </div>
                                         </form>
                                     </div>
@@ -82,59 +80,38 @@
                         <table class="table table-hover mb-none table-bordered">
                             <thead>
                             <tr>
-                                <th width="130px">title</th>
-                                <th>source</th>
-                                <th>origin</th>
-                                <th>description</th>
-                                <th>CommonMark</th>
-                                <th>unlisted</th>
-                                <th>image</th>
-                                <th>publish datetime</th>
-                                <th>is_public</th>
-                                {% if action %}
-                                    <th>action</th>
-                                {% endif %}
-
+                                <th>follow_to_username</th>
+                                <th>follow_time</th>
+                                <th>is_followed</th>
+                                <th>hosts</th>
+                                <th>follow_to_hosts</th>
+                                <th>state</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for data in datas %}
                                 <tr>
-                                    <td><a href="/stream/get_post_detail/{{ data.id }}">{{ data.title }}</a></td>
+                                    <td><a href="/stream/get_auth_posts?user_id={{ data.follow_to }}">{{ data.follow_to_username }}</a></td>
                                     <td>
-                                        <div title="{{ data.source }}"> {{ data.source }}</div>
+                                        <div title="{{ data.follow_time }}"> {{ data.follow_time }}</div>
                                     </td>
                                     <td>
-                                        {{ data.origin }}
+                                        {{ data.is_followed }}
                                     </td>
                                     <td>
-                                        {{ data.description }}
+                                        {{ data.hosts }}
                                     </td>
                                     <td>
-                                        {{ data.CommonMark }}
+                                        {{ data.follow_to_hosts }}
                                     </td>
                                     <td>
-                                        {{ data.unlisted }}
+                                        {% if data.is_followed %}
+                                        Mutual attention
+                                            {% else %}
+
+                                        {% endif %}
                                     </td>
-                                    <td>
-                                        <img src="/media/{{ data.image }}" alt="{{ data.title }}" style="width: 50px;height: 50px" >
-                                    </td>
-                                    <td>
-                                        {{ data.published }}
-                                    </td>
-                                    <td>
-                                        {{ data.is_public }}
-                                    </td>
-                                    {% if action %}
-                                        <td>
-                                            <a href="/stream/get_post_detail/{{ data.id }}"
-                                               class="btn btn-primary btn-sm">view</a>
-                                            <a href="/stream/add_auth_posts?id={{ data.id }}&action=view"
-                                               class="btn btn-success btn-sm">edit</a>
-                                            <a href="/stream/add_auth_posts?id={{ data.id }}&action=delete"
-                                               class="btn btn-danger btn-sm">delete</a>
-                                        </td>
-                                    {% endif %}
+
                                 </tr>
                             {% endfor %}
                             </tbody>

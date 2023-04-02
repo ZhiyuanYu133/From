@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 
 
-
 class User(models.Model):
     class Meta:
         verbose_name = "User"
@@ -35,10 +34,18 @@ class UserFollow(models.Model):
     create_user = models.CharField(max_length=256)
     create_user_name = models.CharField(max_length=256)
     follow_to = models.CharField(max_length=256)
+    follow_to_username = models.CharField(max_length=256)
     follow_time = models.DateTimeField(auto_now_add=True)
     is_followed = models.BooleanField(default=0)
     hosts = models.TextField(default="")
     follow_to_hosts = models.TextField(default="")
+
+    @staticmethod
+    def is_follows(user_id, follow_to):
+        users = UserFollow.objects.filter(create_user=user_id, follow_to=follow_to)
+        if users.exists():
+            return True
+        return False
 
 
 class UserFriends(models.Model):
@@ -51,3 +58,10 @@ class UserFriends(models.Model):
     modify_time = models.DateTimeField(auto_now=True)
     hosts = models.TextField(default="")
     friend_to_hosts = models.TextField(default="")
+
+    @staticmethod
+    def is_friends(user_id, friend_to):
+        users = UserFriends.objects.filter(create_user=user_id, friend_to=friend_to)
+        if users.exists():
+            return True
+        return False

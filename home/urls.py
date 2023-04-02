@@ -19,6 +19,10 @@ urlpatterns = [
     path('forget_password/', forget_password, name="forget_password"),
     path('send_code/', send_code, name="send_code"),
 
+    # user
+    path('add_follow/<int:id>', add_follow, name="add_follow"),
+    path('user_follows/', user_follows, name="user_follows"),
+
     # post info详情
     # path('doctors_detail/', doctors_detail, name="doctors_detail"),
     # path('type_messages/', type_messages, name="type_messages"),

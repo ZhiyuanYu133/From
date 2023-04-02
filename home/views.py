@@ -1,12 +1,13 @@
 import random
 from string import ascii_letters, digits
 
-from django.db.models import F, Q
+from django.db.models import F
 from django.http import JsonResponse, Http404
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from home.forms import UserForm
+from home.models import UserFollow, UserFriends
 from social_distribution.common import setPassword, loginValid, send_email, set_page
 from stream.models import *
 
@@ -55,7 +56,8 @@ def login(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        u = User.objects.filter(username=username, password=setPassword(setPassword(password)),is_active=1, is_delete=0)
+        u = User.objects.filter(username=username, password=setPassword(setPassword(password)), is_active=1,
+                                is_delete=0)
         if u.exists():
             response = HttpResponseRedirect("/")
             response.set_cookie("username", username)
@@ -66,7 +68,7 @@ def login(request):
             return response
         else:
             error = "user not find"
-    return render(request, "common/user/login.html", {"error":error})
+    return render(request, "common/user/login.html", {"error": error})
 
 
 # logout
@@ -87,8 +89,14 @@ def logout(request):
 def user_info(request):
     user_id = request.session.get("user_id")
     view_user_id = request.GET.get("user_id")
+    add_friend = False
+    add_follow = False
     if view_user_id:
         user = User.objects.filter(id=view_user_id)
+        if not UserFriends.is_friends(user_id, view_user_id):
+            add_friend = True
+        if not UserFollow.is_follows(user_id, view_user_id):
+            add_follow = True
     else:
         user = User.objects.filter(id=user_id)
     if user.exists():
@@ -188,17 +196,39 @@ def send_code(request):
     return JsonResponse(response)
 
 
-# post详情
-# def doctors_detail(request):
-#     _id = request.GET.get("id")
-#     user_id = request.session.get("user_id")
-#     doctors = Doctors.objects.filter(id=_id)
-#     if not doctors or not user_id:
-#         raise Http404
-#     doctor = doctors[0]
-#     return render(request, "common/stream/doctor_detail.html", {"doctor": doctor})
-#
-#
+@loginValid
+def add_follow(request, id):
+    user_id = request.session.get("user_id")
+    username = request.session.get("username")
+    user = User.objects.filter(id=id)
+    if not user:
+        raise Http404
+    userfollow = UserFollow.objects.filter(create_user=id, follow_to=user_id)
+    user_follow = UserFollow(
+        create_user=user_id,
+        create_user_name=username,
+        follow_to=id,
+        follow_to_username=user[0].username,
+        is_followed=True if userfollow.exists() else False
+    )
+    user_follow.save()
+    return render(request, "common/stream/doctor_detail.html", {"user_follow": user_follow})
+
+
+def user_follows(request):
+    user_id = request.session.get("user_id")
+    page = request.GET.get("page", 0)
+    datas = UserFollow.objects.filter(
+        create_user=user_id
+    )
+    page_list = []
+    if datas:
+        datas, page_list = set_page(datas, 40, page)
+    return render(request, "common/user/user_follows.html", {"datas": datas, "page_list": page_list})
+
+
+
+
 # # my follows info
 # def type_messages(request):
 #     data = request.GET
