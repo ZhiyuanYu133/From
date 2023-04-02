@@ -125,11 +125,11 @@ v1:
 *** Project Part 3
     - 20 Marks
     - Total Project
-      - Excellent 20: Excellent effort. Coordinates and connects fine. Good demo. Clear application of what was learned in class. 3 or more groups connected. Posts with embedded images are visible. Image posts are visible.
-      - Good 17: Some issues, not quite excellent but definitely operational and functional. 2 or more groups connected. Posts with embedded images are visible. Image posts are visible.
-      - Satisfactory 14: There are issues, it does run, it does coordinate. Meets satisfactory aspects of rubric. 2 or more group connected. Image posts are visible.
-      - Unsatisfactory 10: Well you tried, but it's hardly working. Meets unsatisfactory aspects of rubric. 1 or more group connected.
-      - Failure 0: Missing. No attempted. Not complete enough to evaluate. Often hits failure aspects of rubric.
+    - Excellent 20: Excellent effort. Coordinates and connects fine. Good demo. Clear application of what was learned in class. 3 or more groups connected. Posts with embedded images are visible. Image posts are visible.
+    - Good 17: Some issues, not quite excellent but definitely operational and functional. 2 or more groups connected. Posts with embedded images are visible. Image posts are visible.
+    - Satisfactory 14: There are issues, it does run, it does coordinate. Meets satisfactory aspects of rubric. 2 or more group connected. Image posts are visible.
+    - Unsatisfactory 10: Well you tried, but it's hardly working. Meets unsatisfactory aspects of rubric. 1 or more group connected.
+    - Failure 0: Missing. No attempted. Not complete enough to evaluate. Often hits failure aspects of rubric.
     - Note: these are ordered by importance, but you need to meet all these parts and we care about the final quality.
    
    - Code Base
