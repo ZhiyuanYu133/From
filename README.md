@@ -19,11 +19,11 @@ https://github.com/Wanrltw123/From/tree/main/Requirement
 
 ## 运行方法
 - 安装虚拟环境
- - virtualenv venv --python=python3
- - .\venv\Scripts\Activate.ps1
+   - virtualenv venv --python=python3
+   - .\venv\Scripts\Activate.ps1
 
 - 安装必要库
- - pip install -r requirements.txt 
+   - pip install -r requirements.txt 
 
 - 运行
    - python manage.py runserver 
@@ -31,8 +31,8 @@ https://github.com/Wanrltw123/From/tree/main/Requirement
 
 
 - 普通用户
- - 账户名：ybkb
- - 密码：ybkb123
+  - 账户名：ybkb
+  - 密码：ybkb123
 
 
 ## 要完成的user story 
