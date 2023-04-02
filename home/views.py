@@ -6,20 +6,19 @@ from django.http import JsonResponse, Http404
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from social_distribution.common import setPassword, loginValid, send_email, set_page
 from home.forms import UserForm
-from .models import *
+from social_distribution.common import setPassword, loginValid, send_email, set_page
 from stream.models import *
-from django.contrib import messages
+
 
 # index
-@loginValid
+# @loginValid
 def index(request):
     # last = Doctors.objects.count() - 1
     # user_id = request.session.get("user_id")
     page = request.GET.get("page", 0)
-    type_name = request.GET.get("type_name", "")
-    data = Posts.objects.filter(status=1)
+    # type_name = request.GET.get("type_name", "")
+    data = Posts.objects.filter(is_public=1)
     page_list = []
     # if type_name:
     #     data = data.filter(office_type__type_name__icontains=type_name)
@@ -28,7 +27,7 @@ def index(request):
     return render(request, "common/index.html", {"data": data, "page_list": page_list})
 
 
-# 注册页面
+# register页面
 def register(request):
     errors = ""
     if request.method == "POST":
@@ -37,18 +36,24 @@ def register(request):
             username = userform.cleaned_data.get("username")
             password = userform.cleaned_data.get("password")
             password_confirm = request.POST.get("password_confirm")
+            github = request.POST.get("github", "")
+            email = request.POST.get("email", "")
+            displayName = request.POST.get("displayName", "")
             if password == password_confirm:
                 user = User()
                 user.username = username
+                user.github = "https://github.com/" + github
+                user.email = email
+                user.displayName = displayName
                 user.password = setPassword(setPassword(password))
                 user.save()
             return HttpResponseRedirect("/login/")
         else:
             errors = userform.errors
-    return render(request, "common/register.html", {"errors": errors})
+    return render(request, "common/user/register.html", {"errors": errors})
 
 
-# 登录
+# login
 def login(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -60,9 +65,9 @@ def login(request):
             request.session["username"] = username
             request.session["user_id"] = u[0].id
             request.session["image"] = u[0].profileImage.url
-            print(u[0].image.profileImage, u[0].profileImage)
+            print(u[0].profileImage.url, u[0].profileImage)
             return response
-    return render(request, "common/login.html")
+    return render(request, "common/user/login.html")
 
 
 # 退出
@@ -78,19 +83,19 @@ def logout(request):
     return response
 
 
-# 个人信息
+# user info
 @loginValid
 def user_info(request):
     user_id = request.session.get("user_id")
     user = User.objects.filter(id=user_id)
     if user.exists():
         user = user[0]
-        return render(request, "common/user_info.html", locals())
+        return render(request, "common/user/user_info.html", locals())
     else:
         return render(request, "common/pages-404.html")
 
 
-# 修改个人信息
+# change user info
 @loginValid
 def change_userinfo(request):
     user_id = request.session.get("user_id")
@@ -121,10 +126,10 @@ def change_userinfo(request):
             user.save()
         return redirect("home:user_info")
 
-    return render(request, "common/change_userinfo.html", {"user": user[0]})
+    return render(request, "common/user/change_userinfo.html", {"user": user[0]})
 
 
-# 修改password
+# change password
 @loginValid
 def change_password(request):
     user_id = request.session.get("user_id")
@@ -140,7 +145,7 @@ def change_password(request):
             return redirect("home:logout")
         else:
             error = "原password错误或两次password不一致！"
-    return render(request, "common/change_password.html", {"error": error})
+    return render(request, "common/user/change_password.html", {"error": error})
 
 
 # 忘记password
@@ -180,7 +185,7 @@ def send_code(request):
     return JsonResponse(response)
 
 
-# 医生详情
+# post详情
 def doctors_detail(request):
     _id = request.GET.get("id")
     user_id = request.session.get("user_id")
@@ -191,7 +196,7 @@ def doctors_detail(request):
     return render(request, "common/doctor_detail.html", {"doctor": doctor})
 
 
-# 科室信息
+# my follows info
 def type_messages(request):
     data = request.GET
     type_name = data.get("type_name", "")
@@ -202,7 +207,7 @@ def type_messages(request):
     return render(request, "common/types_message.html", {"types": types, "type_name": type_name})
 
 
-# 医生信息
+# post info
 def doctors_messages(request):
     data = request.GET
     doctor_name = data.get("doctor_name", "")
@@ -213,6 +218,6 @@ def doctors_messages(request):
     if desc:
         doctors = doctors.filter(
             Q(goods_at__icontains=desc) | Q(office_type__type_name__icontains=desc) | Q(desc__icontains=desc) | Q(
-                address__icontains=desc) | Q(rank_name__icontains=desc)| Q(office_type__desc__icontains=desc))
+                address__icontains=desc) | Q(rank_name__icontains=desc) | Q(office_type__desc__icontains=desc))
     return render(request, "common/doctors_message.html",
                   {"doctors": doctors, "doctor_name": doctor_name, "desc": desc})

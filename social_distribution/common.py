@@ -14,20 +14,16 @@ from home.models import User
 from django.http import HttpResponseRedirect
 
 
-# 登录校验器
+# login校验器
 def loginValid(func):
     def inner(request, *args, **kwargs):
-        # 从cookie当中获取数据
         username = request.COOKIES.get("username")
-        id = request.session.get("user_id")
-        # 判断cookie存在
-        if username and id:
-            # 通过id查询用户
-            user = User.objects.filter(id=id).first()
-            if user and user.username == username:  # 证明id时这个username对应的id
-                return func(request, *args, **kwargs)  # 跳转页面
+        user_id = request.session.get("user_id")
+        if username and user_id:
+            user = User.objects.filter(id=user_id).first()
+            if user and user.username == username:
+                return func(request, *args, **kwargs)
         return HttpResponseRedirect("/login/")
-
     return inner
 
 
@@ -38,16 +34,16 @@ from social_distribution import settings
 
 def send_email(message, receiver, html_message=None):
     """
-    :param message: 要发送的信息
+    :param message: 要发送的 info
     :param receiver: 接收人
     :param html_message: html类型内容
     :return:
     """
     try:
         if html_message:
-            result = send_mail("智推医疗专家系统", message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message)
+            result = send_mail("智推posts系统", message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message)
         else:
-            result = send_mail("智推医疗专家系统", message, settings.EMAIL_HOST_USER, [receiver])
+            result = send_mail("智推posts系统", message, settings.EMAIL_HOST_USER, [receiver])
     except:
         result = 0
     return result

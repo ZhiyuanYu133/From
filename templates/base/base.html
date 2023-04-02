@@ -35,7 +35,7 @@
 
 					<form action="/doctors_messages" class="search nav-form" method="get">
 						<div class="input-group input-search">
-							<input type="text" class="form-control" name="desc" id="q" placeholder="搜索医生...">
+							<input type="text" class="form-control" name="desc" id="q" placeholder="搜索post...">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
 							</span>
@@ -61,7 +61,7 @@
 							<ul class="list-unstyled">
 								<li class="divider"></li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="/user_info"><i class="fa fa-user"></i>个人中心</a>
+									<a role="menuitem" tabindex="-1" href="/user_info"><i class="fa fa-user"></i>profile</a>
 								</li>
 								<li>
 									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
@@ -96,42 +96,42 @@
 									<li class="nav-active">
 										<a href="/">
 											<i class="fa fa-home" aria-hidden="true"></i>
-											<span>首页</span>
+											<span>index</span>
 										</a>
 									</li>
 
                                     <li class="nav">
 										<a href="/type_messages">
 											<i class="fa fa-table" aria-hidden="true"></i>
-											<span>科室信息</span>
+											<span>my follows info</span>
 										</a>
 									</li>
                                     <li class="nav">
 										<a href="/doctors_messages">
 											<i class="fa fa-table" aria-hidden="true"></i>
-											<span>医疗专家信息</span>
+											<span>posts info</span>
 										</a>
 									</li>
 
 									<li class="nav-parent">
 										<a>
 											<i class="fa fa-tasks" aria-hidden="true"></i>
-											<span>个人中心</span>
+											<span>profile</span>
 										</a>
 										<ul class="nav nav-children">
 											<li>
 												<a href="/user_info">
-													 个人信息
+													 user info
 												</a>
 											</li>
 											<li>
 												<a href="/change_userinfo">
-													 完善信息
+													 完善 info
 												</a>
 											</li>
                                             <li>
 												<a href="/change_password">
-													 password修改
+													 passwordchange
 												</a>
 											</li>
 											<li>
@@ -157,7 +157,7 @@
                     {% block content %}
                     
                     {% endblock %}
-                     更多信息请联系<a href="/" target="_blank" title="智推医疗专家">admin.qq.com</a>
+                     更多 info请联系<a href="/" target="_blank" title="智推posts">admin.qq.com</a>
 				</section>
 			</div>
 		</section>
