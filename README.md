@@ -140,14 +140,14 @@ v1:
       - Satisfactory: Codebase in places. Passes some tests. Some
         parts run
       - Unsatisfactory: Does not meet Satisfactory level
-    - UI 3
+   - UI 3
       - Excellent: UI Exists and works well. Shows evidence of
         planning. Looks great.
       - Good: UI Exists.  Looks good
       - Satisfactory: UI exists. Looks poor.
       - Unsatisfactory: UI exists. Doesn't work well. Worse than poor.
       - Failure: Missing or unusable.
-    - Web Service Coordination
+  - Web Service Coordination
       - Excellent: Web service coordinates with 2+ other group
         projects successfully. Most interoperation requirements met.
       - Good: Web service coordinates with 2+ other group
@@ -156,7 +156,7 @@ v1:
       - Satisfactory: The basics of coordination are covered.
         Probably many snags.
       - Unsatisfactory: Coordination doesn't work or barely works.
-    - Web Service API & Documentation
+  - Web Service API & Documentation
       - Excellent: Documented, adheres to requirements to augments
         them with compatibility.  Open API specification exists, has clear descriptions,
         and has example requests and responses from your API. 
@@ -167,20 +167,20 @@ v1:
       - Unsatisfactory: Effort taken but incomplete. Open API specification exists, but no descriptions
         or example requests and responses.
       - Failure: API or Documentation Missing. Open API specification does not exist. 
-    - Tool Use
+  - Tool Use
       - Excellent: Use of at least Git is Evidence and Obvious
       - Good: Frequent but inconsistent use of Git, etc.
       - Satisfactory: Infrequent use of Git, etc.
       - Unsatisfactory: Limited tool use
       - Failure: lack of tool use
-    - Design
+  - Design
       - Excellent: Adheres to standards, well designed
       - Good: Adheres to standards somewhat, some awkward parts
       - Satisfactory: Some good parts, some nasty parts
       - Unsatisfactory: Little effort went into documenting and
         designing the project
       - Failure: clear lack of design
-    - Adhering to Standards
+  - Adhering to Standards
       - Excellent: Excellent attempt at making a standards
         compliant website. Most things are compliant.
       - Good: An attempt at making a standards
@@ -188,13 +188,13 @@ v1:
       - Satisfactory: Inconsistent.
       - Unsatisfactory: poor attempt to meet standards.
       - Failure: failed to apply what was learned in class
-    - AJAX
+  - AJAX
       - Excellent: Uses AJAX appropriately and well (documented)
       - Good: Uses some AJAX (documented)
       - Satisfactory: AJAX not really used
       - Unsatisfactory: An attempt was made.
       - Failure: No AJAX
-   - Test Cases （可4月5号之后添加）
+  - Test Cases （可4月5号之后添加）
       - Excellent: System is well tested
       - Good: System has some tests
       - Unsatisfactory: test cases are inappropriate
