@@ -26,7 +26,7 @@ class UserForm(forms.Form):
     password = forms.CharField(max_length=32, min_length=6)
     password_confirm = forms.CharField(max_length=32, min_length=6)
 
-    # 校验数据
+    # check data
     def clean_username(self):
         username = self.cleaned_data.get("username")
         if "admin" in username:

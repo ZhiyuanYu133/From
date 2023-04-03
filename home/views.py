@@ -25,7 +25,7 @@ def index(request):
     return render(request, "common/index.html", {"datas": datas, "page_list": page_list})
 
 
-# register页面
+# register page
 def register(request):
     errors = ""
     if request.method == "POST":
@@ -156,7 +156,7 @@ def change_password(request):
             user.update(password=setPassword(setPassword(new_password)))
             return redirect("home:logout")
         else:
-            error = "原password错误或两次password不一致！"
+            error = "last password error or password is diffrient！"
     return render(request, "common/user/change_password.html", {"error": error})
 
 
@@ -177,7 +177,7 @@ def forget_password(request):
     return render(request, "common/user/forget_password.html", {"error": error})
 
 
-# ajax 发送验证码
+# ajax send code
 def send_code(request):
     response = {"status": 0, "data": "email error，please user email"}
     email = request.GET.get("email")

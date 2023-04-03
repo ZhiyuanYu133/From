@@ -129,4 +129,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-# SESSION_EXPIRE_AT_BROWSER_CLOSE=True  # 关闭浏览器cookie 失效
+# SESSION_EXPIRE_AT_BROWSER_CLOSE=True  # cookie

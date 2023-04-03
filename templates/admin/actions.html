@@ -188,8 +188,8 @@
         </el-form>
 
         <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="layerSubmit()" v-text="layer.confirm_button||'确定'"></el-button>
-            <el-button @click="visible = false" v-text="layer.cancel_button||'取消'"></el-button>
+            <el-button type="primary" @click="layerSubmit()" v-text="layer.confirm_button||'sure'"></el-button>
+            <el-button @click="visible = false" v-text="layer.cancel_button||'cancel'"></el-button>
         </span>
     </el-dialog>
 </div>
@@ -202,7 +202,7 @@
         el: '#layer_app',
         data: {
             visible: false,
-            title: '弹出层',
+            title: 'alert',
             params: [],
             layer: {},
             rules: [],
@@ -211,7 +211,7 @@
         methods: {
             layerSubmit() {
                 const self = this;
-                //校验
+                //check valid
                 for (let key in self.params) {
                     let item = self.params[key];
                     if (item.require) {
@@ -222,15 +222,15 @@
                     }
                 }
 
-                //开始submit
+                //startsubmit
                 let data = new FormData();
-                //方法名
+                //function name
                 data.append('_action', self.action);
                 let selecteds = [];
                 $("#result_list .selected input[name='_selected_action']").each((index, item) => selecteds.push(item.value));
                 data.append('_selected', selecteds.join(','));
                 data.append('select_across',document.querySelector("input[name='select_across']").value)
-                //获取选中的数据
+                //get choice data
 
                 data.append('csrfmiddlewaretoken', document.querySelector('[name="csrfmiddlewaretoken"]').value);
                 for (let key in self.params) {
@@ -250,7 +250,7 @@
                     }
                     if (res.data.status == 'success') {
                         self.visible = false;
-                        //1.5s 后刷新
+                        //1.5s refresh
                         setTimeout(() => window.location.reload(), 1000);
                     }
                     self.$message({
@@ -262,7 +262,7 @@
         }
     })
 
-    //弹出层处理
+    //alert
     function layer(data, action) {
         layerApp.layer = data.layer;
         layerApp.title = data.layer.title;
@@ -329,13 +329,14 @@
             'show': function (newValue) {
                 obj = document.querySelector('.xfull')
                 if (!newValue) {
-                    //隐藏
+
+                    //hidden
                     document.getElementById('toolbar').style.display = 'none';
                     if (obj) {
                         obj.style.display = 'none';
                     }
                 } else {
-                    //显示
+                    //
                     document.getElementById('toolbar').style.display = 'inherit';
                     if (obj) {
                         obj.style.display = 'inherit';
@@ -367,13 +368,13 @@
                 actionsCleaning(name);
                 var self = this;
 
-                // 增加非空判断！
+                // ！
                 if ($("#changelist-form").serializeArray().length <= 2) {
                     this.$message.error(getLanuage("Please select at least one option!"));
                     return;
                 }
 
-                //#67 #66 修复删除问题，改为弹出确认
+                //#67 #66 ，
 
                 this.$confirm(getLanuage('Are you sure you want to delete the selected?'))
                     .then(_ => {
@@ -404,7 +405,7 @@
             var data_name = $(this).attr('data-name');
             var _vue = new Vue();
 
-            //这边处理弹出层对话框
+            //alart
             if (eid) {
                 for (var i in _action.customButton) {
                     var temp = _action.customButton[i];
@@ -415,15 +416,15 @@
                 }
             }
 
-            //TODO 需要做国际化
+            //
             if (checkbox_checked == 0 && data_name != "add_item" && !_action.customButton[data_name].action_url) {
                 _vue.$alert(getLanuage("Please select at least one option!"), '', {
                     type: 'warning'
                 })
             } else if (confirm) {
-                _vue.$confirm(confirm, '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                _vue.$confirm(confirm, 'message', {
+                    confirmButtonText: 'sure',
+                    cancelButtonText: 'cancel',
                     type: 'warning'
                 }).then(() => done.call(this));
 
@@ -465,10 +466,10 @@
                                         window.open(temp.action_url);
                                         break;
                                 }
-                                console.log('中断后续操作');
+
                                 return;
                             }
-                            //终止执行
+                            //
                             break;
                         }
                     }

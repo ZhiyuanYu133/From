@@ -82,7 +82,7 @@
                             </tr>
                             <tr>
                                 <td>phone：{% if user.gender == 0 %}woman{% elif user.gender == 1 %}man{% else %}
-                                    暂无{% endif %}</td>
+                                    {% endif %}</td>
                             </tr>
                             <tr>
                                 <td>phone：{{ user.phone }}</td>

@@ -4,9 +4,9 @@
 - 尽量多的commit，我这边方便同步（少量多次）
 
 ## 时间点
-- 尽量4月2日晚上之前完成基本功能的设计（用户registerlogin；发帖；点赞评论转发；加好友等等）
-- 最迟4月3日早晨与第一个组对接
-- 4月4日之后可能有机会对细节进行change ，但总体功能应该保持不变了
+- 尽量4month2day晚上之前完成基本功能的设计（用户registerlogin；发帖；点赞评论转发；加好友等等）
+- 最迟4month3day早晨与第一个组对接
+- 4month4day之后可能有机会对细节进行change ，但总体功能应该保持不变了
 
 ## 小组连接参考文档
 - 小组A:https://cmput404-group-project.herokuapp.com/service/swagger/
@@ -215,7 +215,7 @@ v1:
       - Satisfactory: AJAX not really used
       - Unsatisfactory: An attempt was made.
       - Failure: No AJAX
-  - Test Cases （可4月5号之后添加）
+  - Test Cases （可4month5号之后添加）
       - Excellent: System is well tested
       - Good: System has some tests
       - Unsatisfactory: test cases are inappropriate
