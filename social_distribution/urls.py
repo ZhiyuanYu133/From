@@ -38,22 +38,23 @@ from stream.api_views import *
 from django.contrib import admin
 from rest_framework import routers
 from django.urls import re_path
+
 router = routers.DefaultRouter()
-router.register('api_info', PostsViewSet)
+
 urlpatterns = [
-  path('admin/', admin.site.urls),
-  # path('docs/swagger/', schema_view),
-  path('api/', include('stream.api_urls')),
-  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                  path('admin/', admin.site.urls),
+                  # path('docs/swagger/', schema_view),
+                  path('api/', include('stream.api_urls')),
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-  # 配置drf-yasg路由
-  re_path('^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0),
-       name='schema-json'),
-  path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-  path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+                  # setting drf_yasg
+                  re_path('^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0),
+                          name='schema-json'),
+                  path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+                  path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
-  path('', include("home.urls", namespace="home")),
-  path('stream/', include("stream.urls", namespace="stream")),
-  path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,
+                  path('', include("home.urls", namespace="home")),
+                  path('stream/', include("stream.urls", namespace="stream")),
+                  path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,
                                                                                          document_root=settings.STATIC_ROOT)

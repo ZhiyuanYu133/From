@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -10,8 +12,9 @@ class Posts(models.Model):
     class Meta:
         ordering = ["-published"]
 
-    type = "post"
     id = models.IntegerField(primary_key=True, editable=False)
+    type = models.CharField(max_length=255, default="post", editable=False)
+    uuid = models.CharField(max_length=255, default=str(uuid.uuid4()), editable=True, unique=True)
     title = models.CharField(max_length=100)
     source = models.CharField(max_length=100, null=True)
     origin = models.CharField(max_length=100, null=True)
@@ -30,7 +33,6 @@ class Posts(models.Model):
     is_public = models.BooleanField(default=False)
     CommonMark = models.BooleanField(default=False)
     is_friends_public = models.BooleanField(default=False)
-
 
     def __str__(self):
         return (
@@ -79,5 +81,3 @@ class LikeHistory(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     add_time = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
-
-

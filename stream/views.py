@@ -209,4 +209,3 @@ def share(request, id):
 
     return render(request, "common/stream/share.html", {"id": id, "friends": friends})
 
-# def
