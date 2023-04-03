@@ -17,9 +17,23 @@
 - 访问不了需要开梯子
 
 ## 目标小组连接参考文档
-- 小组A:https://cmput404-group-project.herokuapp.com/service/swagger/
-- 小组B:https://floating-fjord-51978.herokuapp.com/swagger/
+- 小组A:
+   - 组A源码：https://github.com/thecatinbox/CMPUT404-Project
+   - 组A的API文档：https://cmput404-project-data.herokuapp.com/swagger/
+   - 组A的部署链接：https://cmput404-project-app.herokuapp.com/
+   - 用户名：username1 
+   - 密码：123
+- 小组B:
+   - 组A的API文档：https://cmput404-group-project.herokuapp.com/service/swagger/
+   - 用户名：remote
+   - 密码：remote
+- 小组C:
+   - 组C的API文档：https://floating-fjord-51978.herokuapp.com/swagger/
+   - 用户名：admin
+   - 密码：admin
+   - 组C其他信息：<img width="335" alt="微信图片_20230403071910" src="https://user-images.githubusercontent.com/77706312/229521584-1f1282d3-7f4d-4f97-af3d-98ff46ea7336.png">
 
+<img width="413" alt="微信图片_20230403071811" src="https://user-images.githubusercontent.com/77706312/229521407-2c5e5817-9424-4311-8074-c562b215a160.png">
 
 ## 过往满分case参考
 https://www.youtube.com/watch?v=FEW22YsaHn4
