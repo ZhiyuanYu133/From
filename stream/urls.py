@@ -2,8 +2,7 @@
 
 from django.urls import path, include, re_path
 from .views import *
-from django.contrib import admin
-
+from .api_views import *
 
 urlpatterns = [
     path('get_auth_posts/', get_auth_posts, name="get_auth_posts"),
@@ -12,6 +11,7 @@ urlpatterns = [
     path('add_like_history/', add_like_history, name="add_like_history"),
     path('get_post_detail/<int:pk>', get_post_detail, name="get_post_detail"),
     path('share/<int:id>', share, name="share"),
+
 ]
 
 app_name = "stream"
