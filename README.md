@@ -4,13 +4,18 @@
 - 尽量多的commit，我这边方便同步（少量多次）
 
 ## 时间点
-- 尽量4month2day晚上之前完成基本功能的设计（用户registerlogin；发帖；点赞评论转发；加好友等等）
+- ~~尽量4month2day晚上之前完成基本功能的设计（用户registerlogin；发帖；点赞评论转发；加好友等等）~~
 - 最迟4month3day早晨与第一个组对接
 - 4month4day之后可能有机会对细节进行change ，但总体功能应该保持不变了
 
-## 小组连接参考文档
+## 具体任务
+- ~~将repo部署在heroku上之后~~，设计restful api接口（约10个）跟第三方对接数据 （比如拉用户数据并在页面上展示，同时可以发请求到其他系统）
+- 优化UI界面
+
+## 目标小组连接参考文档
 - 小组A:https://cmput404-group-project.herokuapp.com/service/swagger/
 - 小组B:https://floating-fjord-51978.herokuapp.com/swagger/
+
 
 ## 过往满分case参考
 https://www.youtube.com/watch?v=FEW22YsaHn4
