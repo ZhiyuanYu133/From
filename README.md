@@ -8,6 +8,9 @@
 - 最迟4月3日早晨与第一个组对接
 - 4月4日之后可能有机会对细节进行change ，但总体功能应该保持不变了
 
+## 小组连接参考文档
+- 小组A:https://cmput404-group-project.herokuapp.com/service/swagger/
+- 小组B:https://floating-fjord-51978.herokuapp.com/swagger/
 
 ## 过往满分case参考
 https://www.youtube.com/watch?v=FEW22YsaHn4
