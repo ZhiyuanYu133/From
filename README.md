@@ -10,7 +10,11 @@
 
 ## 具体任务
 - ~~将repo部署在heroku上之后~~，设计restful api接口（约10个）跟第三方对接数据 （比如拉用户数据并在页面上展示，同时可以发请求到其他系统）
-- 优化UI界面
+- 优化UI界面（非必须）
+
+## 当前heroku部署链接：
+- https://socialdistribution404.herokuapp.com/# 
+- 访问不了需要开梯子
 
 ## 目标小组连接参考文档
 - 小组A:https://cmput404-group-project.herokuapp.com/service/swagger/
